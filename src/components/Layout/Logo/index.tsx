@@ -6,7 +6,10 @@ export const PCLayoutLogo = ({ src, element }: PCLayoutLogoProps) => {
     return <img src={src} alt="Logo" className="h-full" />;
   }
   if (element) {
-    return element;
+    return (
+      <>
+        {element()}
+      </>)
   }
   return null;
 };

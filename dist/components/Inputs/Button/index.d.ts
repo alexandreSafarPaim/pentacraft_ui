@@ -1,5 +1,3 @@
 import React from 'react';
-export declare type PCLayoutButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    children: React.ReactNode;
-};
+import { PCLayoutButtonProps } from '../../../types/types';
 export declare const Button: ({ children, onClick, className, style, ...props }: PCLayoutButtonProps) => React.JSX.Element;

@@ -15,7 +15,7 @@ const Template: Story<LayoutProps> = args => {
   const [passShow, setPassShow] = useState(false);
 
   return (
-    <Layout.Root {...args}>
+    <Layout.Root>
       <Layout.Logo src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/2560px-Coca-Cola_logo.svg.png" />
       <Layout.HeaderMenu userName="Alexandre safar paim">
         <Layout.HeaderMenuItem href="/perfil">Perfil</Layout.HeaderMenuItem>
@@ -38,6 +38,8 @@ const Template: Story<LayoutProps> = args => {
         </Layout.MenuItem>
       </Layout.Menu>
       <Layout.Content>
+
+
         <Form.Root
           title="Novo Usuário"
           onSubmit={(e, v) => {
@@ -45,20 +47,30 @@ const Template: Story<LayoutProps> = args => {
           }}
         >
           <Form.Actions>
-            <Button type="submit">Enviar</Button>
+            <Button type="button" 
+              style={{
+                backgroundColor: '#e74c3c',
+                color: '#fff',
+              }}
+              onClick={() => {
+                //roll back
+              }}
+            >Cancelar</Button>
+            <Button type="submit">Cadastrar</Button>
           </Form.Actions>
+
+
           <Form.Content className="flex flex-col gap-3 p-3">
             <Input
               label="Nome"
               name="nome"
               placeholder="Digite o nome"
-              customInput={props => <input {...props} />}
             />
             <Input
               label="Text Area"
               name="textArea"
               placeholder="Text Area"
-              customInput={props => <textarea {...props} />}
+              customInput={(props) => <textarea style={props.style} className={props.className} />}
             />
             <Input label="Data" name="date" type="date" />
             <Input
@@ -83,10 +95,10 @@ const Template: Story<LayoutProps> = args => {
                   className="w-full h-full p-1 bg-slate-700 flex items-center justify-center text-white font-bold text-2xl"
                   onClick={() => setPassShow(!passShow)}
                 >
-                  @
+                  O
                 </button>
               )}
-            />
+            /> 
             <CustomSelect
               name="select"
               options={[
@@ -96,12 +108,16 @@ const Template: Story<LayoutProps> = args => {
                 { label: 'Opção 4', value: '4' },
                 { label: 'Opção 5', value: '5' },
               ]}
-              value={'1'}
+              value={['1', '2']}
               label="Selecione"
-              error="Selecione uma opção"
+              placeholder='Selecione uma opção'
+              multiple
+              // error="Selecione uma opção"
             />
           </Form.Content>
         </Form.Root>
+
+        
       </Layout.Content>
     </Layout.Root>
   );

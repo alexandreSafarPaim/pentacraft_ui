@@ -55,7 +55,7 @@ export const PCLayoutMenuItem = ({
           <Icon size={20} />
         </div>
         <span
-          className="pl-2"
+          className="pl-2 whitespace-nowrap"
           style={{
             opacity: showMenu ? 1 : 0,
             transition: 'opacity 0.3s ease-in-out',

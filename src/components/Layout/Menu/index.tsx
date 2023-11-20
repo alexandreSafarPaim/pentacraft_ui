@@ -50,9 +50,9 @@ export const PCLayoutMenu = ({
       </button>
       <div className="w-full h-full z-30 flex flex-col">
         <div className="flex flex-col gap-1 flex-1">{menuItems}</div>
-        {endItens && (
+        {endItens.length > 0 && (
           <div
-            className="pt-3 border-t flex flex-col gap-1 "
+            className="pt-3 border-t flex flex-col gap-1 mb-3 "
             style={{
               borderColor: scheme?.secondary,
             }}

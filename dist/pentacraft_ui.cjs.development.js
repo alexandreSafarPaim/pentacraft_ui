@@ -43,6 +43,16 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
+var LayoutMenuContext = /*#__PURE__*/React__default.createContext({
+  showMenu: false
+});
+
+function useTheme() {
+  var _React$useContext = React__default.useContext(LayoutMenuContext),
+    scheme = _React$useContext.scheme;
+  return scheme;
+}
+
 var isComponent = function isComponent(children, elementName) {
   if (children.type.displayName) {
     return children.type.displayName == elementName;
@@ -95,10 +105,6 @@ var childrenWithout = function childrenWithout(children, elementNames) {
   return restChildren;
 };
 
-var LayoutMenuContext = /*#__PURE__*/React__default.createContext({
-  showMenu: false
-});
-
 var _excluded = ["children", "onSubmit", "className", "style", "title"],
   _excluded2 = ["children", "className"];
 var PCLayoutForm = function PCLayoutForm(_ref) {
@@ -107,8 +113,7 @@ var PCLayoutForm = function PCLayoutForm(_ref) {
     style = _ref.style,
     title = _ref.title,
     props = _objectWithoutPropertiesLoose(_ref, _excluded);
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var actions = React.useMemo(function () {
     if (!children) {
       return null;
@@ -261,8 +266,7 @@ var Switcher = function Switcher(_ref) {
 
 var PCLayoutContent = function PCLayoutContent(_ref) {
   var children = _ref.children;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var rootClass = React.useMemo(function () {
     var rclass = 'flex-1 max-w-full max-h-full overflow-auto';
     return tailwindMerge.twMerge(rclass);
@@ -301,10 +305,10 @@ var capitalizeName = function capitalizeName(name) {
 
 function PCLayoutHeaderMenu(_ref) {
   var userName = _ref.userName,
+    customAvatar = _ref.customAvatar,
     userImage = _ref.userImage,
     children = _ref.children;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var _useState = React.useState(false),
     showProfileMenu = _useState[0],
     setShowProfileMenu = _useState[1];
@@ -323,11 +327,16 @@ function PCLayoutHeaderMenu(_ref) {
     onClick: function onClick() {
       return setShowProfileMenu(!showProfileMenu);
     }
-  }, userName ? returnInitials(userName) : userImage ? React__default.createElement("img", {
+  }, customAvatar ? customAvatar({
+    userName: userName,
+    userImage: userImage
+  }) : userImage ? React__default.createElement("img", {
     src: userImage,
-    alt: "Profile",
-    className: "h-full"
-  }) : null), React__default.createElement("div", {
+    alt: userName,
+    className: "w-full h-full rounded-full"
+  }) : userName ? React__default.createElement("span", {
+    className: "w-full h-full flex items-center justify-center"
+  }, returnInitials(userName)) : null), React__default.createElement("div", {
     className: "absolute shadow-2xl overflow-hidden rounded-lg z-10",
     style: {
       top: 'calc(100% + 20px)',
@@ -337,7 +346,7 @@ function PCLayoutHeaderMenu(_ref) {
       color: scheme == null ? void 0 : scheme.textPrimary,
       backgroundColor: scheme == null ? void 0 : scheme.primary
     }
-  }, React__default.createElement("div", {
+  }, headerMenuItem && React__default.createElement("div", {
     className: "px-3 py-2"
   }, React__default.createElement("span", {
     className: "whitespace-nowrap font-bold h-8"
@@ -365,7 +374,7 @@ var PCLayoutLogo = function PCLayoutLogo(_ref) {
     });
   }
   if (element) {
-    return element;
+    return React__default.createElement(React__default.Fragment, null, element());
   }
   return null;
 };
@@ -411,8 +420,8 @@ var PCLayoutMenu = function PCLayoutMenu(_ref) {
     className: "w-full h-full z-30 flex flex-col"
   }, React__default.createElement("div", {
     className: "flex flex-col gap-1 flex-1"
-  }, menuItems), endItens && React__default.createElement("div", {
-    className: "pt-3 border-t flex flex-col gap-1 ",
+  }, menuItems), endItens.length > 0 && React__default.createElement("div", {
+    className: "pt-3 border-t flex flex-col gap-1 mb-3 ",
     style: {
       borderColor: scheme == null ? void 0 : scheme.secondary
     }
@@ -426,8 +435,7 @@ var NavigationButton = function NavigationButton(_ref) {
     className = _ref.className,
     style = _ref.style,
     fill = _ref.fill;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var _useState = React.useState(false),
     hover = _useState[0],
     setHover = _useState[1];
@@ -554,7 +562,7 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
   }, React__default.createElement(Icon, {
     size: 20
   })), React__default.createElement("span", {
-    className: "pl-2",
+    className: "pl-2 whitespace-nowrap",
     style: {
       opacity: showMenu ? 1 : 0,
       transition: 'opacity 0.3s ease-in-out'
@@ -613,7 +621,7 @@ var PCLayout = function PCLayout(_ref) {
   var children = _ref.children,
     themeSwitcher = _ref.themeSwitcher,
     colorSchemeDark = _ref.colorSchemeDark,
-    colorSchemeLight = _ref.colorSchemeLight;
+    colorSchemeDefault = _ref.colorSchemeDefault;
   var _useState = React.useState(false),
     showMenu = _useState[0],
     setShowMenu = _useState[1];
@@ -642,8 +650,8 @@ var PCLayout = function PCLayout(_ref) {
     if (isDark) {
       return colorSchemeDark != null ? colorSchemeDark : dark;
     }
-    return colorSchemeLight != null ? colorSchemeLight : light;
-  }, [isDark, colorSchemeDark, colorSchemeLight]);
+    return colorSchemeDefault != null ? colorSchemeDefault : light;
+  }, [isDark, colorSchemeDark, colorSchemeDefault]);
   var handleSwitcherChange = React.useCallback(function (value) {
     setIsDark(value);
     localStorage.setItem('dark-mode', JSON.stringify(value));
@@ -703,8 +711,7 @@ var PCLayoutFilters = function PCLayoutFilters(_ref) {
   var onSubmit = _ref.onSubmit,
     onClear = _ref.onClear,
     children = _ref.children;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var _useState = React.useState(false),
     openFilter = _useState[0],
     setOpenFilter = _useState[1];
@@ -835,7 +842,7 @@ function NewButton(_ref2) {
     onCreateClick = _ref2.onCreateClick,
     createButtonTitle = _ref2.createButtonTitle;
   return React__default.createElement(NavigationButton, {
-    className: "px-3 py-1 text-sm rounded-lg font-bold w-fit",
+    className: "px-3 py-1 text-sm rounded-lg font-bold max-w-fit",
     fill: true,
     href: createButtonHref,
     onClick: function onClick() {
@@ -850,8 +857,7 @@ var PCLayoutPagination = function PCLayoutPagination(_ref) {
     perPage = _ref.perPage,
     onChangePerPage = _ref.onChangePerPage,
     onChangePage = _ref.onChangePage;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var pages = React.useMemo(function () {
     var pages = [];
     var previousPage = currentPage - 1;
@@ -982,8 +988,7 @@ var PCLayoutTH = function PCLayoutTH(_ref) {
 
 var PCLayoutTHead = function PCLayoutTHead(_ref) {
   var children = _ref.children;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   return React__default.createElement("thead", {
     className: "sticky top-0 z-10",
     style: {
@@ -1004,8 +1009,7 @@ var PCLayoutTR = function PCLayoutTR(_ref) {
 
 var PCLayoutTable = function PCLayoutTable(_ref) {
   var children = _ref.children;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var pagination = React.useMemo(function () {
     if (!children) {
       return null;
@@ -1052,8 +1056,7 @@ var Input = function Input(_ref) {
     containerClassName = _ref.containerClassName,
     customInput = _ref.customInput,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$1);
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   return React__default.createElement("div", {
     className: tailwindMerge.twMerge('w-full', containerClassName)
   }, label && React__default.createElement("label", {
@@ -1063,7 +1066,10 @@ var Input = function Input(_ref) {
       transition: 'color 0.3s ease-in-out'
     },
     htmlFor: props.name
-  }, label), customInput && customInput(_extends({}, props, {
+  }, label), customInput && customInput(_extends({
+    label: label,
+    error: error
+  }, props, {
     className: tailwindMerge.twMerge('appearance-none block w-full border rounded h-10 px-1 leading-tight focus:outline-none', "placeholder:" + (scheme == null ? void 0 : scheme.inputPrimaryPlaceholder), props.className),
     style: _extends({
       transition: 'all 0.3s ease-in-out',
@@ -1106,8 +1112,7 @@ var CustomSelect = function CustomSelect(_ref) {
     style = _ref.style,
     label = _ref.label,
     error = _ref.error;
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var _useState = React.useState([]),
     selectedValues = _useState[0],
     setSelectedValues = _useState[1];
@@ -1275,8 +1280,7 @@ var Button = function Button(_ref) {
     className = _ref.className,
     style = _ref.style,
     props = _objectWithoutPropertiesLoose(_ref, _excluded$2);
-  var _React$useContext = React__default.useContext(LayoutMenuContext),
-    scheme = _React$useContext.scheme;
+  var scheme = useTheme();
   var _useState = React.useState(false),
     hover = _useState[0],
     setHover = _useState[1];
@@ -1327,7 +1331,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = "/*! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com*/*,:after,:before{border:0 solid #e5e7eb;box-sizing:border-box}:after,:before{--tw-content:\"\"}html{-webkit-text-size-adjust:100%;font-feature-settings:normal;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-variation-settings:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{color:inherit;font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:#9ca3af;opacity:1}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]{display:none}*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.sr-only{clip:rect(0,0,0,0);border-width:0;height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.left-1{left:.25rem}.top-0{top:0}.top-1{top:.25rem}.top-12{top:3rem}.z-10{z-index:10}.z-20{z-index:20}.z-30{z-index:30}.z-40{z-index:40}.z-50{z-index:50}.mx-4{margin-left:1rem;margin-right:1rem}.mb-2{margin-bottom:.5rem}.mb-4{margin-bottom:1rem}.ml-1{margin-left:.25rem}.ml-2{margin-left:.5rem}.ml-4{margin-left:1rem}.ml-5{margin-left:1.25rem}.mr-1{margin-right:.25rem}.mr-2{margin-right:.5rem}.mr-3{margin-right:.75rem}.mr-4{margin-right:1rem}.mt-1{margin-top:.25rem}.block{display:block}.flex{display:flex}.table{display:table}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-16{height:4rem}.h-6{height:1.5rem}.h-8{height:2rem}.h-\\[14px\\]{height:14px}.h-\\[1px\\]{height:1px}.h-\\[20px\\]{height:20px}.h-\\[90\\%\\]{height:90%}.h-\\[98\\%\\]{height:98%}.h-full{height:100%}.h-screen{height:100vh}.max-h-0{max-height:0}.max-h-\\[200px\\]{max-height:200px}.max-h-full{max-height:100%}.max-h-screen{max-height:100vh}.w-10{width:2.5rem}.w-14{width:3.5rem}.w-6{width:1.5rem}.w-\\[14px\\]{width:14px}.w-\\[20px\\]{width:20px}.w-fit{width:-moz-fit-content;width:fit-content}.w-full{width:100%}.min-w-max{min-width:-moz-max-content;min-width:max-content}.max-w-full{max-width:100%}.flex-1{flex:1 1 0%}.table-auto{table-layout:auto}.translate-x-full{--tw-translate-x:100%}.transform,.translate-x-full{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-default{cursor:default}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.appearance-none{-webkit-appearance:none;-moz-appearance:none;appearance:none}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.self-end{align-self:flex-end}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-y-scroll{overflow-y:scroll}.text-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.rounded-b-lg{border-bottom-left-radius:.5rem;border-bottom-right-radius:.5rem}.rounded-se-lg{border-start-end-radius:.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-slate-400{--tw-border-opacity:1;border-color:rgb(148 163 184/var(--tw-border-opacity))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85/var(--tw-border-opacity))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240/var(--tw-bg-opacity))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225/var(--tw-bg-opacity))}.bg-slate-400{--tw-bg-opacity:1;background-color:rgb(148 163 184/var(--tw-bg-opacity))}.bg-slate-500{--tw-bg-opacity:1;background-color:rgb(100 116 139/var(--tw-bg-opacity))}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85/var(--tw-bg-opacity))}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.p-1{padding:.25rem}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-bottom:.25rem;padding-top:.25rem}.py-2{padding-bottom:.5rem;padding-top:.5rem}.pl-2{padding-left:.5rem}.pt-2{padding-top:.5rem}.pt-3{padding-top:.75rem}.text-left{text-align:left}.text-center{text-align:center}.font-sans{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-normal{font-weight:400}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-none{line-height:1}.leading-tight{line-height:1.25}.tracking-wide{letter-spacing:.025em}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249/var(--tw-text-opacity))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42/var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-70{opacity:.7}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-duration:.15s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1)}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#d3d3d3;border-radius:5px}::-webkit-scrollbar-thumb{background:#5b5b63;border-radius:5px}::-webkit-scrollbar-thumb:hover{background:#555}.hover\\:bg-slate-900:hover{--tw-bg-opacity:1;background-color:rgb(15 23 42/var(--tw-bg-opacity))}.hover\\:text-slate-200:hover{--tw-text-opacity:1;color:rgb(226 232 240/var(--tw-text-opacity))}.hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width:768px){.md\\:absolute{position:absolute}.md\\:left-5{left:1.25rem}.md\\:block{display:block}}";
+var css_248z = "/*! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com*/*,:after,:before{border:0 solid #e5e7eb;box-sizing:border-box}:after,:before{--tw-content:\"\"}html{-webkit-text-size-adjust:100%;font-feature-settings:normal;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-variation-settings:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{color:inherit;font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:#9ca3af;opacity:1}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]{display:none}*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.sr-only{clip:rect(0,0,0,0);border-width:0;height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.left-1{left:.25rem}.top-0{top:0}.top-1{top:.25rem}.top-12{top:3rem}.z-10{z-index:10}.z-20{z-index:20}.z-30{z-index:30}.z-40{z-index:40}.z-50{z-index:50}.mx-4{margin-left:1rem;margin-right:1rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.ml-1{margin-left:.25rem}.ml-2{margin-left:.5rem}.ml-4{margin-left:1rem}.ml-5{margin-left:1.25rem}.mr-1{margin-right:.25rem}.mr-2{margin-right:.5rem}.mr-3{margin-right:.75rem}.mr-4{margin-right:1rem}.mt-1{margin-top:.25rem}.block{display:block}.flex{display:flex}.table{display:table}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-16{height:4rem}.h-6{height:1.5rem}.h-8{height:2rem}.h-\\[14px\\]{height:14px}.h-\\[1px\\]{height:1px}.h-\\[20px\\]{height:20px}.h-\\[90\\%\\]{height:90%}.h-\\[98\\%\\]{height:98%}.h-full{height:100%}.h-screen{height:100vh}.max-h-0{max-height:0}.max-h-\\[200px\\]{max-height:200px}.max-h-full{max-height:100%}.max-h-screen{max-height:100vh}.w-10{width:2.5rem}.w-14{width:3.5rem}.w-6{width:1.5rem}.w-\\[14px\\]{width:14px}.w-\\[20px\\]{width:20px}.w-full{width:100%}.min-w-max{min-width:-moz-max-content;min-width:max-content}.max-w-fit{max-width:-moz-fit-content;max-width:fit-content}.max-w-full{max-width:100%}.flex-1{flex:1 1 0%}.table-auto{table-layout:auto}.translate-x-full{--tw-translate-x:100%}.transform,.translate-x-full{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-default{cursor:default}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.appearance-none{-webkit-appearance:none;-moz-appearance:none;appearance:none}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.self-end{align-self:flex-end}.overflow-auto{overflow:auto}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.overflow-y-scroll{overflow-y:scroll}.text-ellipsis{text-overflow:ellipsis}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-md{border-radius:.375rem}.rounded-xl{border-radius:.75rem}.rounded-b-lg{border-bottom-left-radius:.5rem;border-bottom-right-radius:.5rem}.rounded-se-lg{border-start-end-radius:.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-slate-400{--tw-border-opacity:1;border-color:rgb(148 163 184/var(--tw-border-opacity))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85/var(--tw-border-opacity))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240/var(--tw-bg-opacity))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225/var(--tw-bg-opacity))}.bg-slate-400{--tw-bg-opacity:1;background-color:rgb(148 163 184/var(--tw-bg-opacity))}.bg-slate-500{--tw-bg-opacity:1;background-color:rgb(100 116 139/var(--tw-bg-opacity))}.bg-slate-700{--tw-bg-opacity:1;background-color:rgb(51 65 85/var(--tw-bg-opacity))}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity))}.p-1{padding:.25rem}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-bottom:.25rem;padding-top:.25rem}.py-2{padding-bottom:.5rem;padding-top:.5rem}.pl-2{padding-left:.5rem}.pt-2{padding-top:.5rem}.pt-3{padding-top:.75rem}.text-left{text-align:left}.text-center{text-align:center}.font-sans{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-normal{font-weight:400}.uppercase{text-transform:uppercase}.italic{font-style:italic}.leading-none{line-height:1}.leading-tight{line-height:1.25}.tracking-wide{letter-spacing:.025em}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249/var(--tw-text-opacity))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42/var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-70{opacity:.7}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.transition{transition-duration:.15s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1)}.ease-in-out{transition-timing-function:cubic-bezier(.4,0,.2,1)}::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#d3d3d3;border-radius:5px}::-webkit-scrollbar-thumb{background:#5b5b63;border-radius:5px}::-webkit-scrollbar-thumb:hover{background:#555}.hover\\:bg-slate-900:hover{--tw-bg-opacity:1;background-color:rgb(15 23 42/var(--tw-bg-opacity))}.hover\\:text-slate-200:hover{--tw-text-opacity:1;color:rgb(226 232 240/var(--tw-text-opacity))}.hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity))}.focus\\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}@media (min-width:768px){.md\\:absolute{position:absolute}.md\\:left-5{left:1.25rem}.md\\:block{display:block}}";
 styleInject(css_248z,{"insertAt":"top"});
 
 var formatColor = function formatColor(color, defaultColor, prefix) {
@@ -1363,4 +1367,5 @@ exports.defineChildrenElement = defineChildrenElement;
 exports.formatColor = formatColor;
 exports.isComponent = isComponent;
 exports.returnInitials = returnInitials;
+exports.useTheme = useTheme;
 //# sourceMappingURL=pentacraft_ui.cjs.development.js.map

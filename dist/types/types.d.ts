@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 export declare type LayoutProps = {
     children: React.ReactNode;
     themeSwitcher?: boolean;
-    colorSchemeLight?: ColorScheme;
+    colorSchemeDefault?: ColorScheme;
     colorSchemeDark?: ColorScheme;
 };
 export declare type LayoutMenuContextType = {
@@ -33,7 +33,7 @@ export declare type PCLayoutMenuEndItemProps = {
 };
 export declare type PCLayoutLogoProps = {
     src?: string;
-    element?: React.ReactElement;
+    element?: () => React.ReactNode;
 };
 export declare type ColorScheme = {
     primary?: string;
@@ -65,4 +65,20 @@ export declare type ColorScheme = {
     warning?: string;
     error?: string;
     info?: string;
+};
+export declare type PCLayoutButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    children: React.ReactNode;
+};
+export declare type PCLayoutInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+    error?: string;
+    containerClassName?: string;
+    customInput?: (prop: Omit<PCLayoutInputProps, 'customInput' | 'ContainerClassName'>) => React.ReactNode | React.ReactNode;
+    suffixElement?: () => React.ReactNode | React.ReactNode;
+    prefixElement?: () => React.ReactNode | React.ReactNode;
+};
+export declare type PCLayoutNavigationButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    children: React.ReactNode;
+    href?: string;
+    fill?: boolean;
 };

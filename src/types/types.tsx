@@ -38,7 +38,7 @@ export type PCLayoutMenuEndItemProps = {
 
 export type PCLayoutLogoProps = {
   src?: string;
-  element?: React.ReactElement;
+  element?: () => React.ReactNode;
 };
 
 export type ColorScheme = {

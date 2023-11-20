@@ -76,7 +76,7 @@ function NewButton({
 }) {
   return (
     <NavigationButton
-      className={`px-3 py-1 text-sm rounded-lg font-bold w-fit`}
+      className={`px-3 py-1 text-sm rounded-lg font-bold max-w-fit`}
       fill
       href={createButtonHref}
       onClick={() => onCreateClick?.()}

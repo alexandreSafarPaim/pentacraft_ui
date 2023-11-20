@@ -1,7 +1,3 @@
 import React from 'react';
-export declare type PCLayoutNavigationButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    children: React.ReactNode;
-    href?: string;
-    fill?: boolean;
-};
+import { PCLayoutNavigationButtonProps } from '../../../types/types';
 export declare const NavigationButton: ({ children, href, onClick, className, style, fill, }: PCLayoutNavigationButtonProps) => React.JSX.Element;

@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import React, { useState } from 'react';
 import { FiActivity } from 'react-icons/fi';
-import { Layout, LayoutProps, List, Table } from '../src/index';
+import { Input, Layout, LayoutProps, List, Table } from '../src/index';
 
 const meta: Meta = {
   title: 'List',
@@ -33,13 +33,13 @@ const Template: Story<LayoutProps> = args => {
         <Layout.MenuItem href="/?path=/story/layout--default">
           Layout
         </Layout.MenuItem>
-        <Layout.MenuItem href="/?path=/story/list--default">
+        <Layout.MenuItem href="iframe">
           List
         </Layout.MenuItem>
         <Layout.MenuItem
           icon={FiActivity}
           collapseItens={[
-            { label: 'Ex 1', href: '/iframe' },
+            { label: 'Ex 1', href: '#' },
             { label: 'Ex 2', href: '#' },
           ]}
         >
@@ -47,26 +47,37 @@ const Template: Story<LayoutProps> = args => {
         </Layout.MenuItem>
       </Layout.Menu>
       <Layout.Content>
+
+
+
         <List.Root
           title="Usuários"
           createButtonTitle="Criar Novo Usuário"
           onCreateClick={() => console.log('Criar novo usuário')}
         >
-          <List.Filters onSubmit={values => console.log(values)}>
+          <List.Filters onSubmit={values => console.log(values)}
+            onClear={() => console.log('Limpar')}
+          >
             <div className="flex flex-col py-2 gap-3">
-              <input type="text" name="1" id="" />
-              <input type="text" name="2" id="" />
-              <input type="text" name="3" id="" />
+              <Input
+                name="name"
+                label="Nome"
+                placeholder="Digite o nome do usuário"
+              />
             </div>
           </List.Filters>
+
+
           <List.Content>
             <Table.Root>
+
               <Table.THead>
                 <Table.TH>Nome</Table.TH>
                 <Table.TH>Email</Table.TH>
                 <Table.TH>Telefone</Table.TH>
                 <Table.TH>CPF</Table.TH>
               </Table.THead>
+              
               <Table.TBody>
                 <Table.TR>
                   <Table.TD>João</Table.TD>
@@ -75,6 +86,7 @@ const Template: Story<LayoutProps> = args => {
                   <Table.TD>99999999999</Table.TD>
                 </Table.TR>
               </Table.TBody>
+              
               <Table.Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -82,9 +94,12 @@ const Template: Story<LayoutProps> = args => {
                 perPage={perPage}
                 onChangePerPage={changePerPage}
               />
+              
             </Table.Root>
           </List.Content>
         </List.Root>
+
+        
       </Layout.Content>
     </Layout.Root>
   );
