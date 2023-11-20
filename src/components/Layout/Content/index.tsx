@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { LayoutMenuContext } from '../context';
+import { useTheme } from '../../../hooks/useTheme';
 
 export const PCLayoutContent = ({
   children,
 }: {
   children?: React.ReactNode;
 }) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const rootClass = useMemo(() => {
     const rclass = 'flex-1 max-w-full max-h-full overflow-auto';

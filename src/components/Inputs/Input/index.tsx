@@ -1,17 +1,7 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
-import { LayoutMenuContext } from '../../Layout/context';
-
-export type PCLayoutInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  error?: string;
-  containerClassName?: string;
-  customInput?: (
-    prop: Omit<PCLayoutInputProps, 'customInput' | 'ContainerClassName'>
-  ) => React.ReactNode | React.ReactNode;
-  suffixElement?: () => React.ReactNode | React.ReactNode;
-  prefixElement?: () => React.ReactNode | React.ReactNode;
-};
+import { useTheme } from '../../../hooks/useTheme';
+import { PCLayoutInputProps } from '../../../types/types';
 
 export const Input = ({
   label,
@@ -20,7 +10,7 @@ export const Input = ({
   customInput,
   ...props
 }: PCLayoutInputProps) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   return (
     <div className={twMerge('w-full', containerClassName)}>

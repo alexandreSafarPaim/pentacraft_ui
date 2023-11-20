@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { LayoutMenuContext } from '../../Layout/context';
+import { useTheme } from '../../../hooks/useTheme';
+import { PCLayoutButtonProps } from '../../../types/types';
 
-export type PCLayoutButtonProps = React.ButtonHTMLAttributes<
-  HTMLButtonElement
-> & {
-  children: React.ReactNode;
-};
+
 
 export const Button = ({
   children,
@@ -15,7 +12,7 @@ export const Button = ({
   style,
   ...props
 }: PCLayoutButtonProps) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme()
   const [hover, setHover] = useState(false);
 
   const handleMouseEnter = () => {

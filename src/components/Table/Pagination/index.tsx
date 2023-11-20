@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { LayoutMenuContext } from '../../Layout/context';
+import { useTheme } from '../../../hooks/useTheme';
 
 export const PCLayoutPagination = ({
   currentPage,
@@ -15,7 +15,7 @@ export const PCLayoutPagination = ({
   onChangePerPage?: (perPage: number) => void;
   onChangePage: (page: number) => void;
 }) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const pages = useMemo(() => {
     const pages: any[] = [];

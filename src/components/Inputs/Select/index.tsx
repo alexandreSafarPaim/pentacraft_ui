@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { twMerge } from 'tailwind-merge';
-import { LayoutMenuContext } from '../../Layout/context';
+import { useTheme } from '../../../hooks/useTheme';
 
 interface IMultiselectProps {
   name: string;
@@ -32,7 +32,7 @@ export const CustomSelect = ({
   label,
   error,
 }: IMultiselectProps) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const [selectedValues, setSelectedValues] = useState<any>([]);
   const [search, setSearch] = useState('');

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LayoutMenuContext } from '../../Layout/context';
+import { useTheme } from '../../../hooks/useTheme';
 
 export const PCLayoutFilters = ({
   onSubmit,
@@ -10,7 +10,7 @@ export const PCLayoutFilters = ({
   onClear?: () => void;
   children?: React.ReactNode;
 }) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const [openFilter, setOpenFilter] = useState(false);
   const form = useRef<HTMLFormElement>(null);

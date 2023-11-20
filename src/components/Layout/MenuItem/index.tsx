@@ -2,8 +2,8 @@ import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BiChevronDown, BiChevronUp, BiSolidTagAlt } from 'react-icons/bi';
 import { NavigationButton } from '../../Inputs/NavigationButton';
-import { LayoutMenuContext } from '../context';
-import { PCLayoutMenuCollapseItemProps, PCLayoutMenuItemProps } from '../types';
+import { LayoutMenuContext } from '../../../contexts/context';
+import { PCLayoutMenuCollapseItemProps, PCLayoutMenuItemProps } from '../../../types/types';
 
 export const PCLayoutMenuItem = ({
   children,

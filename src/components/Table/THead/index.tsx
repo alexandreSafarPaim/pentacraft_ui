@@ -1,8 +1,8 @@
 import React from 'react';
-import { LayoutMenuContext } from '../../Layout/context';
+import { useTheme } from '../../../hooks/useTheme';
 
 export const PCLayoutTHead = ({ children }: { children: React.ReactNode }) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
   return (
     <thead
       className={`sticky top-0 z-10`}

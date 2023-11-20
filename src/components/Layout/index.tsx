@@ -9,14 +9,14 @@ import { PCLayoutLogo } from './Logo';
 import { PCLayoutMenu } from './Menu';
 import { PCLayoutMenuEndItem } from './MenuEndItem';
 import { PCLayoutMenuItem } from './MenuItem';
-import { LayoutMenuContext } from './context';
-import { LayoutProps } from './types';
+import { LayoutMenuContext } from '../../contexts/context';
+import { LayoutProps } from '../../types/types';
 
 const PCLayout = ({
   children,
   themeSwitcher,
   colorSchemeDark,
-  colorSchemeLight,
+  colorSchemeDefault,
 }: LayoutProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -46,8 +46,8 @@ const PCLayout = ({
     if (isDark) {
       return colorSchemeDark ?? dark;
     }
-    return colorSchemeLight ?? light;
-  }, [isDark, colorSchemeDark, colorSchemeLight]);
+    return colorSchemeDefault ?? light;
+  }, [isDark, colorSchemeDark, colorSchemeDefault]);
 
   const handleSwitcherChange = useCallback(
     (value: boolean) => {

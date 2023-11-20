@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { BiSolidTagAlt } from 'react-icons/bi';
 import { NavigationButton } from '../../Inputs/NavigationButton';
-import { LayoutMenuContext } from '../context';
-import { PCLayoutMenuEndItemProps } from '../types';
+import { LayoutMenuContext } from '../../../contexts/context';
+import { PCLayoutMenuEndItemProps } from '../../../types/types';
 
 export const PCLayoutMenuEndItem = ({
   children,

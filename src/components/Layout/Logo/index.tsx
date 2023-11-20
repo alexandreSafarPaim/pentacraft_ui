@@ -1,5 +1,5 @@
 import React from 'react';
-import { PCLayoutLogoProps } from '../types';
+import { PCLayoutLogoProps } from '../../../types/types';
 
 export const PCLayoutLogo = ({ src, element }: PCLayoutLogoProps) => {
   if (src) {

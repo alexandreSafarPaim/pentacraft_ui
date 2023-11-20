@@ -1,15 +1,8 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { LayoutMenuContext } from '../../Layout/context';
-
-export type PCLayoutNavigationButtonProps = React.ButtonHTMLAttributes<
-  HTMLButtonElement
-> & {
-  children: React.ReactNode;
-  href?: string;
-  fill?: boolean;
-};
+import { useTheme } from '../../../hooks/useTheme';
+import { PCLayoutNavigationButtonProps } from '../../../types/types';
 
 export const NavigationButton = ({
   children,
@@ -19,7 +12,7 @@ export const NavigationButton = ({
   style,
   fill,
 }: PCLayoutNavigationButtonProps) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
   const [hover, setHover] = useState(false);
 
   const handleMouseEnter = () => {

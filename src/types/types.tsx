@@ -3,7 +3,7 @@ import { IconType } from 'react-icons';
 export type LayoutProps = {
   children: React.ReactNode;
   themeSwitcher?: boolean;
-  colorSchemeLight?: ColorScheme;
+  colorSchemeDefault?: ColorScheme;
   colorSchemeDark?: ColorScheme;
 };
 
@@ -71,4 +71,29 @@ export type ColorScheme = {
   warning?: string;
   error?: string;
   info?: string;
+};
+
+export type PCLayoutButtonProps = React.ButtonHTMLAttributes<
+  HTMLButtonElement
+> & {
+  children: React.ReactNode;
+};
+
+export type PCLayoutInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  label?: string;
+  error?: string;
+  containerClassName?: string;
+  customInput?: (
+    prop: Omit<PCLayoutInputProps, 'customInput' | 'ContainerClassName'>
+  ) => React.ReactNode | React.ReactNode;
+  suffixElement?: () => React.ReactNode | React.ReactNode;
+  prefixElement?: () => React.ReactNode | React.ReactNode;
+};
+
+export type PCLayoutNavigationButtonProps = React.ButtonHTMLAttributes<
+  HTMLButtonElement
+> & {
+  children: React.ReactNode;
+  href?: string;
+  fill?: boolean;
 };

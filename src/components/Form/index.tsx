@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { useTheme } from '../../hooks/useTheme';
 import { defineChildrenElement } from '../../utils/element';
-import { LayoutMenuContext } from '../Layout/context';
 
 export interface PCLayoutFormProps
   extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
@@ -17,7 +17,7 @@ export const PCLayoutForm = ({
   title,
   ...props
 }: PCLayoutFormProps) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const actions = useMemo(() => {
     if (!children) {

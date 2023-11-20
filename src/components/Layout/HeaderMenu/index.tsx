@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
+import { useTheme } from '../../../hooks/useTheme';
 import { defineAllChildrenElement } from '../../../utils/element';
 import { capitalizeName, returnInitials } from '../../../utils/format';
-import { LayoutMenuContext } from '../context';
 
 export function PCLayoutHeaderMenu({
   userName,
@@ -21,7 +21,7 @@ export function PCLayoutHeaderMenu({
   }) => React.ReactNode;
   children: React.ReactNode;
 }) {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 

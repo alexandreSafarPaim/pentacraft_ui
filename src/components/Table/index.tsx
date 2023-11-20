@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
+import { useTheme } from '../../hooks/useTheme';
 import { childrenWithout, defineChildrenElement } from '../../utils/element';
-import { LayoutMenuContext } from '../Layout/context';
 import { PCLayoutPagination } from './Pagination';
 import { PCLayoutTBody } from './TBody';
 import { PCLayoutTD } from './TD';
@@ -9,7 +9,7 @@ import { PCLayoutTHead } from './THead';
 import { PCLayoutTR } from './TR';
 
 export const PCLayoutTable = ({ children }: { children?: React.ReactNode }) => {
-  const { scheme } = React.useContext(LayoutMenuContext);
+  const scheme = useTheme();
 
   const pagination = useMemo(() => {
     if (!children) {
