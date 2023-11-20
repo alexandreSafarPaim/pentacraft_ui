@@ -6,11 +6,19 @@ import { LayoutMenuContext } from '../context';
 
 export function PCLayoutHeaderMenu({
   userName,
+  customAvatar,
   userImage,
   children,
 }: {
   userName?: string;
   userImage?: string;
+  customAvatar?: ({
+    userName,
+    userImage,
+  }: {
+    userName?: string;
+    userImage?: string;
+  }) => React.ReactNode;
   children: React.ReactNode;
 }) {
   const { scheme } = React.useContext(LayoutMenuContext);
@@ -33,10 +41,18 @@ export function PCLayoutHeaderMenu({
         }}
         onClick={() => setShowProfileMenu(!showProfileMenu)}
       >
-        {userName ? (
-          returnInitials(userName)
+        {customAvatar ? (
+          customAvatar({ userName, userImage })
         ) : userImage ? (
-          <img src={userImage} alt="Profile" className="h-full" />
+          <img
+            src={userImage}
+            alt={userName}
+            className="w-full h-full rounded-full"
+          />
+        ) : userName ? (
+          <span className="w-full h-full flex items-center justify-center">
+            {returnInitials(userName)}
+          </span>
         ) : null}
       </button>
       <div
@@ -51,12 +67,14 @@ export function PCLayoutHeaderMenu({
           backgroundColor: scheme?.primary,
         }}
       >
-        <div className="px-3 py-2">
-          <span className="whitespace-nowrap font-bold h-8">
-            {userName && capitalizeName(userName)}
-          </span>
-          <div className="flex flex-col w-full">{headerMenuItem}</div>
-        </div>
+        {headerMenuItem && (
+          <div className="px-3 py-2">
+            <span className="whitespace-nowrap font-bold h-8">
+              {userName && capitalizeName(userName)}
+            </span>
+            <div className="flex flex-col w-full">{headerMenuItem}</div>
+          </div>
+        )}
       </div>
     </div>
   );

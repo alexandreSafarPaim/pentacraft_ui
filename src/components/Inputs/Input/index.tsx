@@ -6,7 +6,9 @@ export type PCLayoutInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   error?: string;
   containerClassName?: string;
-  customInput?: (...prop: any) => React.ReactNode | React.ReactNode;
+  customInput?: (
+    prop: Omit<PCLayoutInputProps, 'customInput' | 'ContainerClassName'>
+  ) => React.ReactNode | React.ReactNode;
   suffixElement?: () => React.ReactNode | React.ReactNode;
   prefixElement?: () => React.ReactNode | React.ReactNode;
 };
@@ -36,6 +38,8 @@ export const Input = ({
       )}
       {customInput &&
         customInput({
+          label,
+          error,
           ...props,
           className: twMerge(
             'appearance-none block w-full border rounded h-10 px-1 leading-tight focus:outline-none',
