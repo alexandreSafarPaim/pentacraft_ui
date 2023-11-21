@@ -15,13 +15,13 @@ export const PCLayoutMenuEndItem = ({
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (window && typeof window !== 'undefined') {
       const path = window.location.pathname;
       if (href && path.includes(href)) {
         setActive(true);
       }
     }
-  }, [window]);
+  }, []);
 
   const Icon = useMemo(() => {
     return icon ?? BiSolidTagAlt;

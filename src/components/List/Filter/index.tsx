@@ -43,7 +43,7 @@ export const PCLayoutFilters = ({
         window.removeEventListener('click', clickOut);
       }
     };
-  }, [window]);
+  }, []);
 
   return (
     <div className="h-12 w-full flex items-center relative z-20">

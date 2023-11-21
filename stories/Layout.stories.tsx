@@ -15,7 +15,11 @@ const logo = () => (
 )
 
 const Template: Story<LayoutProps> = args => (
-  <Layout.Root {...args} themeSwitcher  >
+  <Layout.Root {...args} themeSwitcher  
+    colorSchemeDark={{}}
+    colorSchemeDefault={{
+    }}
+  >
     <Layout.Logo src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/2560px-Coca-Cola_logo.svg.png" />
     
     <Layout.HeaderActions>
@@ -23,12 +27,11 @@ const Template: Story<LayoutProps> = args => (
       <button>Botão 2</button>
     </Layout.HeaderActions>
     
-    <Layout.HeaderMenu userName="Alexandre safar paim">
+    <Layout.HeaderMenu userName="Alexandre safar paim" >
       <Layout.HeaderMenuItem href="/perfil">Perfil</Layout.HeaderMenuItem>
     </Layout.HeaderMenu>
     
-    <Layout.Menu
-    >
+    <Layout.Menu>
       <Layout.MenuItem href="/?path=/story/layout--default">
         Layout
       </Layout.MenuItem>

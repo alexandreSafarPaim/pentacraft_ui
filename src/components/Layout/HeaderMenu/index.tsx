@@ -28,6 +28,13 @@ export function PCLayoutHeaderMenu({
   const headerMenuItem = useMemo(() => {
     return defineAllChildrenElement(children, 'HeaderMenuItem');
   }, [children]);
+  if (customAvatar) {
+    return (
+      <>
+      {customAvatar({userName, userImage})}
+      </>
+    )
+  }
 
   return (
     <div className="relative">
@@ -41,9 +48,7 @@ export function PCLayoutHeaderMenu({
         }}
         onClick={() => setShowProfileMenu(!showProfileMenu)}
       >
-        {customAvatar ? (
-          customAvatar({ userName, userImage })
-        ) : userImage ? (
+        {userImage ? (
           <img
             src={userImage}
             alt={userName}

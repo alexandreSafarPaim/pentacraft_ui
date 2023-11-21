@@ -57,7 +57,7 @@ export const childrenWithout = (children: any, elementNames: string[]) => {
 
   if (Array.isArray(children)) {
     restChildren = children.filter(
-      (child: any) => !elements.includes(child.type.displayName)
+      (child: any) => !elements.includes(child.type.displayName || child.type.name)
     );
   } else {
     restChildren = children.props.children;

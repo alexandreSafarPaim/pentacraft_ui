@@ -16,7 +16,7 @@ export const PCLayoutMenuItem = ({
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (window && typeof window !== 'undefined') {
       const path = window.location.pathname;
       if (collapseItens && collapseItens.length > 0) {
         collapseItens.forEach(item => {
@@ -28,7 +28,7 @@ export const PCLayoutMenuItem = ({
         setActive(true);
       }
     }
-  }, [window]);
+  }, []);
 
   const Icon = useMemo(() => {
     return icon ?? BiSolidTagAlt;

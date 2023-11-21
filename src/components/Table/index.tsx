@@ -3,9 +3,9 @@ import { useTheme } from '../../hooks/useTheme';
 import { childrenWithout, defineChildrenElement } from '../../utils/element';
 import { PCLayoutPagination } from './Pagination';
 import { PCLayoutTBody } from './TBody';
+import { PCLayoutTHead } from './THead';
 import { PCLayoutTD } from './TD';
 import { PCLayoutTH } from './TH';
-import { PCLayoutTHead } from './THead';
 import { PCLayoutTR } from './TR';
 
 export const PCLayoutTable = ({ children }: { children?: React.ReactNode }) => {

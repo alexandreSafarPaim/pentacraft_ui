@@ -44,9 +44,15 @@ const PCLayout = ({
 
   const scheme = useMemo(() => {
     if (isDark) {
-      return colorSchemeDark ?? dark;
+      return {
+        ...dark,
+        ...colorSchemeDark
+      };
     }
-    return colorSchemeDefault ?? light;
+    return {
+      ...light,
+      ...colorSchemeDefault
+    };
   }, [isDark, colorSchemeDark, colorSchemeDefault]);
 
   const handleSwitcherChange = useCallback(

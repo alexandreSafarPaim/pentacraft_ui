@@ -76,6 +76,7 @@ export const PCLayoutPagination = ({
     >
       <nav aria-label="Pagination" className="flex items-center">
         <button
+          type='button'
           className={`p-2 mr-4 rounded`}
           style={{
             color: scheme?.textPrimary,
@@ -88,6 +89,7 @@ export const PCLayoutPagination = ({
         {pages.map((page, index) => {
           return (
             <button
+            type='button' 
               className={`p-2 mr-1 rounded ${
                 page === currentPage ? 'font-bold' : 'font-normal'
               } ${page == '...' ? 'cursor-default' : ''}`}
@@ -108,6 +110,7 @@ export const PCLayoutPagination = ({
           );
         })}
         <button
+          type='button'
           className={`p-2 ml-4 rounded`}
           style={{
             color: scheme?.textPrimary,

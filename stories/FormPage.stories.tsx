@@ -111,7 +111,22 @@ const Template: Story<LayoutProps> = args => {
               value={['1', '2']}
               label="Selecione"
               placeholder='Selecione uma opção'
-              multiple
+              // multiple
+              // error="Selecione uma opção"
+            />
+            <CustomSelect
+              name="select"
+              options={[
+                { label: 'Opção 1', value: '1' },
+                { label: 'Opção 2', value: '2' },
+                { label: 'Opção 3', value: '3' },
+                { label: 'Opção 4', value: '4' },
+                { label: 'Opção 5', value: '5' },
+              ]}
+              value={['1', '2']}
+              label="Selecione"
+              placeholder='Selecione uma opção'
+              // multiple
               // error="Selecione uma opção"
             />
           </Form.Content>

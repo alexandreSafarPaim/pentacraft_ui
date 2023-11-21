@@ -97,7 +97,7 @@ var childrenWithout = function childrenWithout(children, elementNames) {
   });
   if (Array.isArray(children)) {
     restChildren = children.filter(function (child) {
-      return !elements.includes(child.type.displayName);
+      return !elements.includes(child.type.displayName || child.type.name);
     });
   } else {
     restChildren = children.props.children;
@@ -315,6 +315,12 @@ function PCLayoutHeaderMenu(_ref) {
   var headerMenuItem = React.useMemo(function () {
     return defineAllChildrenElement(children, 'HeaderMenuItem');
   }, [children]);
+  if (customAvatar) {
+    return React__default.createElement(React__default.Fragment, null, customAvatar({
+      userName: userName,
+      userImage: userImage
+    }));
+  }
   return React__default.createElement("div", {
     className: "relative"
   }, React__default.createElement("button", {
@@ -327,10 +333,7 @@ function PCLayoutHeaderMenu(_ref) {
     onClick: function onClick() {
       return setShowProfileMenu(!showProfileMenu);
     }
-  }, customAvatar ? customAvatar({
-    userName: userName,
-    userImage: userImage
-  }) : userImage ? React__default.createElement("img", {
+  }, userImage ? React__default.createElement("img", {
     src: userImage,
     alt: userName,
     className: "w-full h-full rounded-full"
@@ -481,13 +484,13 @@ var PCLayoutMenuEndItem = function PCLayoutMenuEndItem(_ref) {
     active = _useState[0],
     setActive = _useState[1];
   React.useEffect(function () {
-    if (typeof window !== 'undefined') {
+    if (window && typeof window !== 'undefined') {
       var path = window.location.pathname;
       if (href && path.includes(href)) {
         setActive(true);
       }
     }
-  }, [window]);
+  }, []);
   var Icon = React.useMemo(function () {
     return icon != null ? icon : bi.BiSolidTagAlt;
   }, [icon]);
@@ -527,7 +530,7 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
     active = _useState[0],
     setActive = _useState[1];
   React.useEffect(function () {
-    if (typeof window !== 'undefined') {
+    if (window && typeof window !== 'undefined') {
       var path = window.location.pathname;
       if (collapseItens && collapseItens.length > 0) {
         collapseItens.forEach(function (item) {
@@ -539,7 +542,7 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
         setActive(true);
       }
     }
-  }, [window]);
+  }, []);
   var Icon = React.useMemo(function () {
     return icon != null ? icon : bi.BiSolidTagAlt;
   }, [icon]);
@@ -648,9 +651,9 @@ var PCLayout = function PCLayout(_ref) {
   }, [children]);
   var scheme = React.useMemo(function () {
     if (isDark) {
-      return colorSchemeDark != null ? colorSchemeDark : dark;
+      return _extends({}, dark, colorSchemeDark);
     }
-    return colorSchemeDefault != null ? colorSchemeDefault : light;
+    return _extends({}, light, colorSchemeDefault);
   }, [isDark, colorSchemeDark, colorSchemeDefault]);
   var handleSwitcherChange = React.useCallback(function (value) {
     setIsDark(value);
@@ -742,7 +745,7 @@ var PCLayoutFilters = function PCLayoutFilters(_ref) {
         window.removeEventListener('click', clickOut);
       }
     };
-  }, [window]);
+  }, []);
   return React__default.createElement("div", {
     className: "h-12 w-full flex items-center relative z-20"
   }, React__default.createElement("button", {
@@ -911,6 +914,7 @@ var PCLayoutPagination = function PCLayoutPagination(_ref) {
     "aria-label": "Pagination",
     className: "flex items-center"
   }, React__default.createElement("button", {
+    type: 'button',
     className: "p-2 mr-4 rounded",
     style: {
       color: scheme == null ? void 0 : scheme.textPrimary,
@@ -921,6 +925,7 @@ var PCLayoutPagination = function PCLayoutPagination(_ref) {
     }
   }, React__default.createElement(io.IoIosArrowBack, null)), pages.map(function (page, index) {
     return React__default.createElement("button", {
+      type: 'button',
       className: "p-2 mr-1 rounded " + (page === currentPage ? 'font-bold' : 'font-normal') + " " + (page == '...' ? 'cursor-default' : ''),
       style: {
         transform: page === currentPage ? 'scale(1.1)' : 'scale(1)',
@@ -933,6 +938,7 @@ var PCLayoutPagination = function PCLayoutPagination(_ref) {
       key: index
     }, page);
   }), React__default.createElement("button", {
+    type: 'button',
     className: "p-2 ml-4 rounded",
     style: {
       color: scheme == null ? void 0 : scheme.textPrimary,
@@ -970,22 +976,6 @@ var PCLayoutTBody = function PCLayoutTBody(_ref) {
   return React__default.createElement("tbody", null, children);
 };
 
-var PCLayoutTD = function PCLayoutTD(_ref) {
-  var children = _ref.children;
-  return React__default.createElement("td", {
-    className: "p-4 border-b border-blue-gray-50"
-  }, children);
-};
-
-var PCLayoutTH = function PCLayoutTH(_ref) {
-  var children = _ref.children;
-  return React__default.createElement("th", {
-    className: "p-4"
-  }, React__default.createElement("p", {
-    className: "antialiased font-sans font-bold text-sm flex items-center justify-between gap-2 leading-none opacity-70"
-  }, children));
-};
-
 var PCLayoutTHead = function PCLayoutTHead(_ref) {
   var children = _ref.children;
   var scheme = useTheme();
@@ -1000,6 +990,23 @@ var PCLayoutTHead = function PCLayoutTHead(_ref) {
     className: "h-[1px] bg-slate-200",
     colSpan: 6
   })));
+};
+
+var PCLayoutTD = function PCLayoutTD(_ref) {
+  var children = _ref.children,
+    className = _ref.className;
+  return React__default.createElement("td", {
+    className: tailwindMerge.twMerge("p-4 border-b border-blue-gray-50", className)
+  }, children);
+};
+
+var PCLayoutTH = function PCLayoutTH(_ref) {
+  var children = _ref.children;
+  return React__default.createElement("th", {
+    className: "p-4"
+  }, React__default.createElement("p", {
+    className: "antialiased font-sans font-bold text-sm flex items-center justify-between gap-2 leading-none opacity-70"
+  }, children));
 };
 
 var PCLayoutTR = function PCLayoutTR(_ref) {
@@ -1140,12 +1147,13 @@ var CustomSelect = function CustomSelect(_ref) {
       }
     }
   };
+  var handleClickOutside = function handleClickOutside(e) {
+    if (refOptions.current && !refOptions.current.contains(e.target) && refSelect.current && !refSelect.current.contains(e.target)) {
+      refOptions.current.classList.add('hidden');
+    }
+  };
   React.useEffect(function () {
-    window.addEventListener('click', function (e) {
-      if (refOptions.current && !refOptions.current.contains(e.target) && refSelect.current && !refSelect.current.contains(e.target)) {
-        refOptions.current.classList.add('hidden');
-      }
-    });
+    window.addEventListener('click', handleClickOutside);
     if (value) {
       if (typeof value === 'string') {
         setSelectedValues(value.split(','));
@@ -1154,7 +1162,7 @@ var CustomSelect = function CustomSelect(_ref) {
       }
     }
     return function () {
-      window.removeEventListener('click', function () {});
+      window.removeEventListener('click', handleClickOutside);
     };
   }, []);
   var valueText = React.useMemo(function () {
@@ -1170,7 +1178,7 @@ var CustomSelect = function CustomSelect(_ref) {
     }
   }, [selectedValues]);
   return React__default.createElement("div", {
-    className: "w-full h-full"
+    className: "w-full"
   }, multiple ? selectedValues.map(function (item) {
     return React__default.createElement("input", {
       type: "hidden",

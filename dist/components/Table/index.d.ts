@@ -15,8 +15,9 @@ declare const Table: {
     TH: ({ children }: {
         children?: React.ReactNode;
     }) => React.JSX.Element;
-    TD: ({ children }: {
+    TD: ({ children, className, }: {
         children?: React.ReactNode;
+        className?: string | undefined;
     }) => React.JSX.Element;
     TR: ({ children }: {
         children?: React.ReactNode;

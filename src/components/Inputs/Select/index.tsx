@@ -14,6 +14,7 @@ interface IMultiselectProps {
   style?: React.CSSProperties;
   label?: string;
   error?: string;
+  // onChange?: (value: string | string[] | undefined) => void;
 }
 
 interface ISelectOption {
@@ -31,6 +32,7 @@ export const CustomSelect = ({
   style,
   label,
   error,
+  // onChange,
 }: IMultiselectProps) => {
   const scheme = useTheme();
 
@@ -72,17 +74,19 @@ export const CustomSelect = ({
     }
   };
 
+  const handleClickOutside = (e:any) => {
+    if (
+      refOptions.current &&
+      !refOptions.current.contains(e.target as Node) &&
+      refSelect.current &&
+      !refSelect.current.contains(e.target as Node)
+    ) {
+      refOptions.current.classList.add('hidden');
+    }
+  }
+
   useEffect(() => {
-    window.addEventListener('click', e => {
-      if (
-        refOptions.current &&
-        !refOptions.current.contains(e.target as Node) &&
-        refSelect.current &&
-        !refSelect.current.contains(e.target as Node)
-      ) {
-        refOptions.current.classList.add('hidden');
-      }
-    });
+    window.addEventListener('click', handleClickOutside);
 
     if (value) {
       if (typeof value === 'string') {
@@ -93,7 +97,7 @@ export const CustomSelect = ({
     }
 
     return () => {
-      window.removeEventListener('click', () => {});
+      window.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
@@ -108,7 +112,7 @@ export const CustomSelect = ({
   }, [selectedValues]);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full">
       {multiple ? (
         selectedValues.map((item: any) => (
           <input type="hidden" name={name} value={item} key={item} />
