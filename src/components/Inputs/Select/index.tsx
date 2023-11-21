@@ -8,13 +8,13 @@ interface IMultiselectProps {
   name: string;
   options: ISelectOption[];
   placeholder?: string;
-  value: string | string[];
+  value?: string | string[];
   multiple?: boolean;
   className?: string;
   style?: React.CSSProperties;
   label?: string;
   error?: string;
-  // onChange?: (value: string | string[] | undefined) => void;
+  onChange?: (value: string | string[] | undefined) => void;
 }
 
 interface ISelectOption {
@@ -32,7 +32,7 @@ export const CustomSelect = ({
   style,
   label,
   error,
-  // onChange,
+  onChange,
 }: IMultiselectProps) => {
   const scheme = useTheme();
 
@@ -59,9 +59,6 @@ export const CustomSelect = ({
           (refOptions.current.offsetWidth -
             (refSelect.current?.offsetWidth || 0))}px`;
       }
-      console.log(refOptions.current.offsetTop);
-      console.log(refOptions.current.offsetHeight);
-      console.log(window.innerHeight);
 
       if (
         refOptions.current.offsetTop + refOptions.current.offsetHeight + 40 >
@@ -74,7 +71,7 @@ export const CustomSelect = ({
     }
   };
 
-  const handleClickOutside = (e:any) => {
+  const handleClickOutside = (e: any) => {
     if (
       refOptions.current &&
       !refOptions.current.contains(e.target as Node) &&
@@ -83,11 +80,17 @@ export const CustomSelect = ({
     ) {
       refOptions.current.classList.add('hidden');
     }
-  }
+  };
 
   useEffect(() => {
     window.addEventListener('click', handleClickOutside);
 
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
     if (value) {
       if (typeof value === 'string') {
         setSelectedValues(value.split(','));
@@ -95,11 +98,7 @@ export const CustomSelect = ({
         setSelectedValues(value);
       }
     }
-
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  }, [value]);
 
   const valueText = useMemo(() => {
     if (selectedValues.length > 0 && selectedValues.length < 2) {
@@ -201,18 +200,27 @@ export const CustomSelect = ({
                     if (selectedValues.includes(option.value)) {
                       if (!multiple) {
                         setSelectedValues([]);
+                        onChange && onChange([]);
                       } else {
                         setSelectedValues(
                           selectedValues.filter(
                             (item: any) => item !== option.value
                           )
                         );
+                        onChange &&
+                          onChange(
+                            selectedValues.filter(
+                              (item: any) => item !== option.value
+                            )
+                          );
                       }
                     } else {
                       if (!multiple) {
                         setSelectedValues([option.value]);
+                        onChange && onChange([option.value]);
                       } else {
                         setSelectedValues([...selectedValues, option.value]);
+                        onChange && onChange([...selectedValues, option.value]);
                       }
                     }
                   }}

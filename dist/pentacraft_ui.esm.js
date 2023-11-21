@@ -574,7 +574,7 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
     style: {
       transition: 'all 0.3s ease-in-out',
       marginBlock: showSubMenu ? '0.2rem' : '0',
-      maxHeight: showSubMenu ? 'calc(2rem * 4)' : '0',
+      maxHeight: showSubMenu ? "calc(2rem * " + (collapseItens == null ? void 0 : collapseItens.length) + " + 1rem)" : '0',
       position: !showMenu ? 'fixed' : 'relative',
       left: !showMenu ? "calc(2rem * 1.2)" : '0',
       backgroundColor: scheme == null ? void 0 : scheme.secondary
@@ -754,10 +754,10 @@ var PCLayoutFilters = function PCLayoutFilters(_ref) {
     },
     ref: button
   }, "Filtros"), React.createElement("div", {
-    className: "absolute top-12 max-w-full rounded-b-lg rounded-se-lg overflow-hidden " + (openFilter ? 'max-h-screen' : 'max-h-0'),
+    className: "absolute top-12 max-w-full rounded-b-lg rounded-se-lg  " + (openFilter ? 'max-h-screen' : 'max-h-0 overflow-auto'),
     style: {
       minWidth: '60%',
-      transition: 'max-height 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out',
+      transition: 'max-height 0.1s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out, overflow 0.3s ease-in-out',
       backgroundColor: scheme == null ? void 0 : scheme.backgroundSecondary
     }
   }, React.createElement("form", {
@@ -1111,7 +1111,8 @@ var CustomSelect = function CustomSelect(_ref) {
     className = _ref.className,
     style = _ref.style,
     label = _ref.label,
-    error = _ref.error;
+    error = _ref.error,
+    onChange = _ref.onChange;
   var scheme = useTheme();
   var _useState = useState([]),
     selectedValues = _useState[0],
@@ -1131,9 +1132,6 @@ var CustomSelect = function CustomSelect(_ref) {
         var _refSelect$current4, _refSelect$current5;
         refOptions.current.style.left = (((_refSelect$current4 = refSelect.current) == null ? void 0 : _refSelect$current4.offsetLeft) || 0) - (refOptions.current.offsetWidth - (((_refSelect$current5 = refSelect.current) == null ? void 0 : _refSelect$current5.offsetWidth) || 0)) + "px";
       }
-      console.log(refOptions.current.offsetTop);
-      console.log(refOptions.current.offsetHeight);
-      console.log(window.innerHeight);
       if (refOptions.current.offsetTop + refOptions.current.offsetHeight + 40 > window.innerHeight) {
         var _refSelect$current6;
         refOptions.current.style.top = (((_refSelect$current6 = refSelect.current) == null ? void 0 : _refSelect$current6.offsetTop) || 0) - refOptions.current.offsetHeight - 4 + "px";
@@ -1147,6 +1145,11 @@ var CustomSelect = function CustomSelect(_ref) {
   };
   useEffect(function () {
     window.addEventListener('click', handleClickOutside);
+    return function () {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+  useEffect(function () {
     if (value) {
       if (typeof value === 'string') {
         setSelectedValues(value.split(','));
@@ -1154,10 +1157,7 @@ var CustomSelect = function CustomSelect(_ref) {
         setSelectedValues(value);
       }
     }
-    return function () {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+  }, [value]);
   var valueText = useMemo(function () {
     if (selectedValues.length > 0 && selectedValues.length < 2) {
       var _options$find;
@@ -1245,16 +1245,22 @@ var CustomSelect = function CustomSelect(_ref) {
         if (selectedValues.includes(option.value)) {
           if (!multiple) {
             setSelectedValues([]);
+            onChange && onChange([]);
           } else {
             setSelectedValues(selectedValues.filter(function (item) {
+              return item !== option.value;
+            }));
+            onChange && onChange(selectedValues.filter(function (item) {
               return item !== option.value;
             }));
           }
         } else {
           if (!multiple) {
             setSelectedValues([option.value]);
+            onChange && onChange([option.value]);
           } else {
             setSelectedValues([].concat(selectedValues, [option.value]));
+            onChange && onChange([].concat(selectedValues, [option.value]));
           }
         }
       }

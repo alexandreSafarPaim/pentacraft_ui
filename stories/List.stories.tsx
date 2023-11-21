@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import React, { useState } from 'react';
 import { FiActivity } from 'react-icons/fi';
-import { Input, Layout, LayoutProps, List, Table } from '../src/index';
+import { CustomSelect, Input, Layout, LayoutProps, List, Table } from '../src/index';
 
 const meta: Meta = {
   title: 'List',
@@ -62,6 +62,21 @@ const Template: Story<LayoutProps> = args => {
                 label="Nome"
                 placeholder="Digite o nome do usuário"
               />
+              <CustomSelect
+              name="select"
+              options={[
+                { label: 'Opção 1', value: '1' },
+                { label: 'Opção 2', value: '2' },
+                { label: 'Opção 3', value: '3' },
+                { label: 'Opção 4', value: '4' },
+                { label: 'Opção 5', value: '5' },
+              ]}
+              value={['1', '2']}
+              label="Selecione"
+              placeholder='Selecione uma opção'
+              // multiple
+              // error="Selecione uma opção"
+            />
             </div>
           </List.Filters>
 

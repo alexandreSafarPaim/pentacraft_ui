@@ -78,7 +78,7 @@ export const PCLayoutMenuItem = ({
         style={{
           transition: 'all 0.3s ease-in-out',
           marginBlock: showSubMenu ? '0.2rem' : '0',
-          maxHeight: showSubMenu ? 'calc(2rem * 4)' : '0',
+          maxHeight: showSubMenu ? `calc(2rem * ${collapseItens?.length} + 1rem)` : '0',
           position: !showMenu ? 'fixed' : 'relative',
           left: !showMenu ? `calc(2rem * 1.2)` : '0',
           backgroundColor: scheme?.secondary,
