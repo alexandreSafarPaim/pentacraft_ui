@@ -46,7 +46,7 @@ const Template: Story<LayoutProps> = args => (
         Exemplo Collapse
       </Layout.MenuItem>
       
-      <Layout.MenuEndItem href="/?path=/story/list--default">
+      <Layout.MenuEndItem onClick={()=>{console.log('teste')}}>
         List
       </Layout.MenuEndItem>
     </Layout.Menu>

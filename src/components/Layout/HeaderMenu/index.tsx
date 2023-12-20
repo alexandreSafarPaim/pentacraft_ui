@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import React, { useMemo, useState } from 'react';
 import { useTheme } from '../../../hooks/useTheme';
 import { defineAllChildrenElement } from '../../../utils/element';
 import { capitalizeName, returnInitials } from '../../../utils/format';
+import { NavigationButton } from '../../Inputs';
 
 export function PCLayoutHeaderMenu({
   userName,
@@ -88,13 +88,15 @@ export function PCLayoutHeaderMenu({
 export function PCLayoutHeaderMenuItem({
   children,
   href,
+  onClick,
 }: {
   children: React.ReactNode;
   href?: string;
+  onClick?: () => void;
 }) {
   return (
-    <Link href={href ?? '#'} className="w-full text-left h-8 flex items-center">
+    <NavigationButton href={href} onClick={onClick} className="w-full text-left h-8 flex items-center hover:bg-transparent hover:text-inherit p-0">
       {children}
-    </Link>
+    </NavigationButton>
   );
 }

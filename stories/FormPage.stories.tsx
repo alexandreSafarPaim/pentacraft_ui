@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiActivity } from 'react-icons/fi';
 import { Form, Layout, LayoutProps, Input, Button } from '../src/index';
 import { CustomSelect } from '../src/components/Inputs/Select';
@@ -13,6 +13,16 @@ export default meta;
 
 const Template: Story<LayoutProps> = args => {
   const [passShow, setPassShow] = useState(false);
+
+  const [select, setSelect] = useState<string>('1');
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSelect('2');
+    }
+    , 2000);
+  }, [])
+  
 
   return (
     <Layout.Root>
@@ -108,9 +118,12 @@ const Template: Story<LayoutProps> = args => {
                 { label: 'Opção 4', value: '4' },
                 { label: 'Opção 5', value: '5' },
               ]}
-              value={['1', '2']}
-              label="Selecione"
-              placeholder='Selecione uma opção'
+              label="Selecione1"
+              placeholder='Selecione uma opção1'
+              onChange={(e) => {
+                setSelect(e as string);
+              }}
+              value={select}
               // multiple
               // error="Selecione uma opção"
             />
@@ -123,9 +136,9 @@ const Template: Story<LayoutProps> = args => {
                 { label: 'Opção 4', value: '4' },
                 { label: 'Opção 5', value: '5' },
               ]}
-              value={['1', '2']}
-              label="Selecione"
-              placeholder='Selecione uma opção'
+              value={select}
+              label="Selecione2"
+              placeholder='Selecione uma opção2'
               // multiple
               // error="Selecione uma opção"
             />

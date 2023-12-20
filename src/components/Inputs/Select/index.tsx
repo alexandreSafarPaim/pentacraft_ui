@@ -93,7 +93,7 @@ export const CustomSelect = ({
   useEffect(() => {
     if (value) {
       if (typeof value === 'string') {
-        setSelectedValues(value.split(','));
+        setSelectedValues([value.split(',')]);
       } else {
         setSelectedValues(value);
       }
@@ -117,7 +117,7 @@ export const CustomSelect = ({
           <input type="hidden" name={name} value={item} key={item} />
         ))
       ) : (
-        <input type="hidden" name={name} value={selectedValues[0]} />
+        <input type="hidden" name={name} value={selectedValues.length > 0 ? selectedValues[0] : ''} />
       )}
       {label && (
         <label
@@ -241,7 +241,10 @@ export const CustomSelect = ({
         </ul>
         <button
           type="button"
-          onClick={() => setSelectedValues([])}
+          onClick={() => {
+            setSelectedValues([])
+            onChange && onChange(undefined)
+          }}
           className="w-full bg-slate-300 font-bold border-t border-slate-400"
         >
           Limpar

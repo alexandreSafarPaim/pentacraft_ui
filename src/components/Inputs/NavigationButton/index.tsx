@@ -57,9 +57,13 @@ export const NavigationButton = ({
     return (
       <Link
         href={href ?? '#'}
-        className={`flex items-center h-8 text-left w-full px-4 hover:text-white hover:bg-slate-900`}
+        className={twMerge(
+          `flex items-center h-8 text-left w-full px-4 hover:text-white hover:bg-slate-900`,
+          className
+        )}
         style={{
           transition: 'background-color 0.3s ease-in-out',
+          ...style,
         }}
       >
         {children}

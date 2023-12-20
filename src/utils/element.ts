@@ -1,11 +1,12 @@
 import React from 'react';
 
 export const isComponent = (children: any, elementName: string) => {
-  if (children.type.displayName) {
-    return children.type.displayName == elementName;
-  } else {
+  if (children.type.name) {
     return children.type.name == elementName;
   }
+  else {
+    return children.type.displayName == elementName;
+  } 
 };
 
 export const defineChildrenElement = (
@@ -57,7 +58,7 @@ export const childrenWithout = (children: any, elementNames: string[]) => {
 
   if (Array.isArray(children)) {
     restChildren = children.filter(
-      (child: any) => !elements.includes(child.type.displayName || child.type.name)
+      (child: any) => !elements.includes(child.type.name || child.type.displayName)
     );
   } else {
     restChildren = children.props.children;
