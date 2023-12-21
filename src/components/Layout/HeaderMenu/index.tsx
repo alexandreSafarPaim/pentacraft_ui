@@ -1,8 +1,10 @@
 import React, { useMemo, useState } from 'react';
+import Layout from '..';
 import { useTheme } from '../../../hooks/useTheme';
 import { defineAllChildrenElement } from '../../../utils/element';
 import { capitalizeName, returnInitials } from '../../../utils/format';
 import { NavigationButton } from '../../Inputs';
+import { PCLayoutMenuItem } from '../MenuItem';
 
 export function PCLayoutHeaderMenu({
   userName,
@@ -26,14 +28,14 @@ export function PCLayoutHeaderMenu({
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   const headerMenuItem = useMemo(() => {
-    return defineAllChildrenElement(children, 'HeaderMenuItem');
+    if (process.env.NODE_ENV == 'development') {
+      return defineAllChildrenElement(children, PCLayoutMenuItem.name);
+    } else {
+      return defineAllChildrenElement(children, Layout.HeaderMenuItem.name);
+    }
   }, [children]);
   if (customAvatar) {
-    return (
-      <>
-      {customAvatar({userName, userImage})}
-      </>
-    )
+    return <>{customAvatar({ userName, userImage })}</>;
   }
 
   return (
@@ -95,7 +97,11 @@ export function PCLayoutHeaderMenuItem({
   onClick?: () => void;
 }) {
   return (
-    <NavigationButton href={href} onClick={onClick} className="w-full text-left h-8 flex items-center hover:bg-transparent hover:text-inherit p-0">
+    <NavigationButton
+      href={href}
+      onClick={onClick}
+      className="w-full text-left h-8 flex items-center hover:bg-transparent hover:text-inherit p-0"
+    >
       {children}
     </NavigationButton>
   );

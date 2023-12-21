@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { dark, light } from '../../config/themes';
+import { LayoutMenuContext } from '../../contexts/context';
+import { LayoutProps } from '../../types/types';
 import { defineChildrenElement } from '../../utils/element';
 import { Switcher } from '../Inputs/Switcher';
 import { PCLayoutContent } from './Content';
@@ -9,8 +11,6 @@ import { PCLayoutLogo } from './Logo';
 import { PCLayoutMenu } from './Menu';
 import { PCLayoutMenuEndItem } from './MenuEndItem';
 import { PCLayoutMenuItem } from './MenuItem';
-import { LayoutMenuContext } from '../../contexts/context';
-import { LayoutProps } from '../../types/types';
 
 const PCLayout = ({
   children,
@@ -23,35 +23,55 @@ const PCLayout = ({
 
   const logo = useMemo(() => {
     const defaultLogo = <h1 className="text-2xl">LOGO</h1>;
-    return defineChildrenElement(children, 'Logo', defaultLogo);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutLogo.name, defaultLogo);
+    } else {
+      return defineChildrenElement(children, Layout.Logo.name, defaultLogo);
+    }
   }, [children]);
 
   const menu = useMemo(() => {
-    return defineChildrenElement(children, 'Menu', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutMenu.name, null);
+    } else {
+      return defineChildrenElement(children, Layout.Menu.name, null);
+    }
   }, [children]);
 
   const headerMenu = useMemo(() => {
-    return defineChildrenElement(children, 'HeaderMenu', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutHeaderMenu.name, null);
+    } else {
+      return defineChildrenElement(children, Layout.HeaderMenu.name, null);
+    }
   }, [children]);
 
   const content = useMemo(() => {
-    return defineChildrenElement(children, 'Content', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutContent.name, null);
+    } else {
+      return defineChildrenElement(children, Layout.Content.name, null);
+    }
   }, [children]);
 
   const headerActions = useMemo(() => {
-    return defineChildrenElement(children, 'HeaderActions', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutHeaderActions.name, null);
+    } else {
+      return defineChildrenElement(children, Layout.HeaderActions.name, null);
+    }
   }, [children]);
 
   const scheme = useMemo(() => {
     if (isDark) {
       return {
         ...dark,
-        ...colorSchemeDark
+        ...colorSchemeDark,
       };
     }
     return {
       ...light,
-      ...colorSchemeDefault
+      ...colorSchemeDefault,
     };
   }, [isDark, colorSchemeDark, colorSchemeDefault]);
 

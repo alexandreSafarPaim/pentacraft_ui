@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { defineChildrenElement } from '../../../utils/element';
+import Table, { PCLayoutTable } from '../../Table';
 
 export const PCLayoutListContent = ({
   children,
@@ -10,7 +11,11 @@ export const PCLayoutListContent = ({
     if (!children) {
       return null;
     }
-    return defineChildrenElement(children, 'Table', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutTable.name, null);
+    } else {
+      return defineChildrenElement(children, Table.Root.name, null);
+    }
   }, [children]);
 
   return <div className="w-full h-full">{table ?? children}</div>;

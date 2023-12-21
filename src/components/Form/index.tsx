@@ -23,13 +23,21 @@ export const PCLayoutForm = ({
     if (!children) {
       return null;
     }
-    return defineChildrenElement(children, 'FormActions', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutFormActions.name, null);
+    } else {
+      return defineChildrenElement(children, Form.Actions.name, null);
+    }
   }, [children]);
   const content = useMemo(() => {
     if (!children) {
       return null;
     }
-    return defineChildrenElement(children, 'FormContent', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutFormContent.name, null);
+    } else {
+      return defineChildrenElement(children, Form.Content.name, null);
+    }
   }, [children]);
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {

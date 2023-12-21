@@ -21,14 +21,22 @@ const PCLayoutList = ({
     if (!children) {
       return null;
     }
-    return defineChildrenElement(children, 'Filters', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutFilters.name, null);
+    } else {
+      return defineChildrenElement(children, List.Filters.name, null);
+    }
   }, [children]);
 
   const content = useMemo(() => {
     if (!children) {
       return null;
     }
-    return defineChildrenElement(children, 'ListContent', null);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutListContent.name, null);
+    } else {
+      return defineChildrenElement(children, List.Content.name, null);
+    }
   }, [children]);
 
   return (

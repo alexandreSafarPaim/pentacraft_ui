@@ -1,5 +1,6 @@
 export * from './components';
 import './tailwind.css';
+import './index.css';
 
 export * from './types/types';
 export * from './utils/color';

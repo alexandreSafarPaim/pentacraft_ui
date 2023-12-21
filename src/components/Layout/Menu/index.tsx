@@ -4,6 +4,9 @@ import { MdClose } from 'react-icons/md';
 import { twMerge } from 'tailwind-merge';
 import { defineAllChildrenElement } from '../../../utils/element';
 import { LayoutMenuContext } from '../../../contexts/context';
+import Layout from '..';
+import { PCLayoutMenuItem } from '../MenuItem';
+import { PCLayoutMenuEndItem } from '../MenuEndItem';
 
 export const PCLayoutMenu = ({
   children,
@@ -17,11 +20,19 @@ export const PCLayoutMenu = ({
   const { showMenu, scheme, setShowMenu } = React.useContext(LayoutMenuContext);
 
   const menuItems = useMemo(() => {
-    return defineAllChildrenElement(children, 'MenuItem');
+    if (process.env.NODE_ENV == 'development') {
+      return defineAllChildrenElement(children, PCLayoutMenuItem.name);
+    } else {
+      return defineAllChildrenElement(children, Layout.MenuItem.name);
+    }
   }, [children]);
 
   const endItens = useMemo(() => {
-    return defineAllChildrenElement(children, 'MenuEndItem');
+    if (process.env.NODE_ENV == 'development') {
+      return defineAllChildrenElement(children, PCLayoutMenuEndItem.name);
+    } else {
+      return defineAllChildrenElement(children, Layout.MenuEndItem.name);
+    }
   }, [children]);
 
   // return <div className="flex flex-col gap-1 w-full z-30">{menuItems}</div>;

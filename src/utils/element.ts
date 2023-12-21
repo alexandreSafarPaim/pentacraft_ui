@@ -1,12 +1,13 @@
 import React from 'react';
 
 export const isComponent = (children: any, elementName: string) => {
+  // const variation = `PCLayout${elementName}`;
+  // console.log('Pentacraft Log ', elementName, children);
   if (children.type.name) {
     return children.type.name == elementName;
-  }
-  else {
+  } else {
     return children.type.displayName == elementName;
-  } 
+  }
 };
 
 export const defineChildrenElement = (
@@ -17,12 +18,12 @@ export const defineChildrenElement = (
   let element = defaultElement;
   if (Array.isArray(children)) {
     children.forEach((child: any) => {
-      if (isComponent(child, `PCLayout${elementName}`)) {
+      if (isComponent(child, `${elementName}`)) {
         element = child;
       }
     });
   } else {
-    if (isComponent(children, `PCLayout${elementName}`)) {
+    if (isComponent(children, `${elementName}`)) {
       element = children;
     }
   }
@@ -36,12 +37,12 @@ export const defineAllChildrenElement = (
   let element = [];
   if (Array.isArray(children)) {
     children.forEach((child: any) => {
-      if (isComponent(child, `PCLayout${elementName}`)) {
+      if (isComponent(child, `${elementName}`)) {
         element.push(child);
       }
     });
   } else {
-    if (isComponent(children, `PCLayout${elementName}`)) {
+    if (isComponent(children, `${elementName}`)) {
       element.push(children);
     }
   }
@@ -53,12 +54,13 @@ export const childrenWithout = (children: any, elementNames: string[]) => {
   let restChildren = null;
 
   const elements = elementNames.map(elementName => {
-    return `PCLayout${elementName}`;
+    return `${elementName}`;
   });
 
   if (Array.isArray(children)) {
     restChildren = children.filter(
-      (child: any) => !elements.includes(child.type.name || child.type.displayName)
+      (child: any) =>
+        !elements.includes(child.type.name || child.type.displayName)
     );
   } else {
     restChildren = children.props.children;

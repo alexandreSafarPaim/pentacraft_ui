@@ -16,14 +16,22 @@ export const PCLayoutTable = ({ children }: { children?: React.ReactNode }) => {
       return null;
     }
     const defaultLogo = null;
-    return defineChildrenElement(children, 'Pagination', defaultLogo);
+    if (process.env.NODE_ENV == 'development') {
+      return defineChildrenElement(children, PCLayoutPagination.name, defaultLogo);
+    } else {
+      return defineChildrenElement(children, Table.Pagination.name, defaultLogo);
+    }
   }, [children]);
 
   const restChildren = useMemo(() => {
     if (!children) {
       return null;
     }
-    return childrenWithout(children, ['Pagination']);
+    if (process.env.NODE_ENV == 'development') {
+      return childrenWithout(children, [PCLayoutPagination.name,]);
+    } else {
+      return childrenWithout(children, [Table.Pagination.name]);
+    }
   }, [children]);
 
   return (
