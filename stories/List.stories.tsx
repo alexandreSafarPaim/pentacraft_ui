@@ -51,6 +51,8 @@ const Template: Story<LayoutProps> = args => {
           title="Usuários"
           createButtonTitle="Criar Novo Usuário"
           onCreateClick={() => console.log('Criar novo usuário')}
+          renderPreList={() => <div>Pré lista</div>}
+          renderPosList={() => <div>Pós lista</div>}
         >
           <List.Filters
             onSubmit={values => console.log(values)}

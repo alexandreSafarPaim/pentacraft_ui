@@ -10,12 +10,16 @@ const PCLayoutList = ({
   createButtonTitle,
   onCreateClick,
   createButtonHref,
+  renderPreList,
+  renderPosList,
 }: {
   children?: React.ReactNode;
   title?: string;
   createButtonTitle?: string;
   onCreateClick?: () => void;
   createButtonHref?: string;
+  renderPreList?: () => React.ReactNode;
+  renderPosList?: () => React.ReactNode;
 }) => {
   const filters = useMemo(() => {
     if (!children) {
@@ -53,12 +57,18 @@ const PCLayoutList = ({
       </div>
       {filters}
       <div
-        className="flex-1"
+        className="flex flex-col flex-1"
         style={{
           height: 'calc(100% - 6rem)',
         }}
-      >
+        >
+        {renderPreList?.()}
+        <div
+          className='w-full h-full'
+        >
         {content}
+        </div>
+        {renderPosList?.()}
       </div>
     </div>
   );
