@@ -1,15 +1,21 @@
-import React from 'react';
+import React, {TdHTMLAttributes} from 'react';
 import { twMerge } from 'tailwind-merge';
+
+interface TDProps extends TdHTMLAttributes<HTMLTableCellElement> {
+  children?: React.ReactNode;
+  className?: string;
+}
 
 export const PCLayoutTD = ({
   children,
   className,
-}: {
-  children?: React.ReactNode;
-  className?: string;
-}) => {
+  ...rest
+}: TDProps
+) => {
   return <td className={twMerge(
     "p-4 border-b border-blue-gray-50",
     className
-  )}>{children}</td>;
+  )}
+  {...rest}
+  >{children}</td>;
 };

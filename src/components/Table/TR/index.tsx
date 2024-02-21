@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
-export const PCLayoutTR = ({ children }: { children?: React.ReactNode }) => {
-  return <tr>{children}</tr>;
+interface TRProps extends HTMLAttributes<HTMLTableRowElement> {
+  children?: React.ReactNode;
+}
+
+export const PCLayoutTR = ({ children, ...rest }: TRProps) => {
+  return <tr {...rest}>{children}</tr>;
 };

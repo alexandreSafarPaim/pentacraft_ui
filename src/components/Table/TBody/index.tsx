@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 
-export const PCLayoutTBody = ({ children }: { children: React.ReactNode }) => {
-  return <tbody>{children}</tbody>;
+interface TBodyProps extends HTMLAttributes<HTMLTableSectionElement> {
+  children: React.ReactNode;
+}
+
+export const PCLayoutTBody = ({ children, ...rest }: TBodyProps) => {
+  return <tbody {...rest}>{children}</tbody>;
 };
