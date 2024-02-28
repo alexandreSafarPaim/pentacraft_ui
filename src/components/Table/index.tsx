@@ -58,7 +58,15 @@ export const PCLayoutTable = ({ children }: { children?: React.ReactNode }) => {
   );
 };
 
-const Table = {
+const Table : {
+  Root : typeof PCLayoutTable;
+  TBody : typeof PCLayoutTBody;
+  THead : typeof PCLayoutTHead;
+  TH : typeof PCLayoutTH;
+  TD : typeof PCLayoutTD;
+  TR : typeof PCLayoutTR;
+  Pagination : typeof PCLayoutPagination;
+} = {
   Root: PCLayoutTable,
   TBody: PCLayoutTBody,
   THead: PCLayoutTHead,

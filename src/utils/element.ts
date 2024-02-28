@@ -1,8 +1,6 @@
 import React from 'react';
 
 export const isComponent = (children: any, elementName: string) => {
-  // const variation = `PCLayout${elementName}`;
-  // console.log('Pentacraft Log ', elementName, children);
   if (children.type.name) {
     return children.type.name == elementName;
   } else {

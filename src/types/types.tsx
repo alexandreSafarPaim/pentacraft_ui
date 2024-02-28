@@ -97,3 +97,22 @@ export type PCLayoutNavigationButtonProps = React.ButtonHTMLAttributes<
   href?: string;
   fill?: boolean;
 };
+
+export interface TDProps {
+  children?: React.ReactNode;
+  className?: string;
+  colSpan?: number;
+  rowSpan?: number;
+}
+
+export interface TBodyProps {
+  children: React.ReactNode;
+}
+
+export interface THProps {
+  children?: React.ReactNode;
+}
+
+export interface TRProps {
+  children?: React.ReactNode;
+}

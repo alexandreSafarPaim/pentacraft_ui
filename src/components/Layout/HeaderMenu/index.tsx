@@ -29,11 +29,12 @@ export function PCLayoutHeaderMenu({
 
   const headerMenuItem = useMemo(() => {
     if (process.env.NODE_ENV == 'development') {
-      return defineAllChildrenElement(children, PCLayoutMenuItem.name);
+      return defineAllChildrenElement(children, PCLayoutHeaderMenuItem.name);
     } else {
       return defineAllChildrenElement(children, Layout.HeaderMenuItem.name);
     }
   }, [children]);
+  
   if (customAvatar) {
     return <>{customAvatar({ userName, userImage })}</>;
   }
