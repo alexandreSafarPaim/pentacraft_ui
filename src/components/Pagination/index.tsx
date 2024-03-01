@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { useTheme } from '../../../hooks/useTheme';
+import { useTheme } from '../../hooks/useTheme';
 
 export const PCLayoutPagination = ({
   currentPage,

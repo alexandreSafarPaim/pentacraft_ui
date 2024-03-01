@@ -4,7 +4,6 @@ import { useTheme } from '../../../hooks/useTheme';
 import { defineAllChildrenElement } from '../../../utils/element';
 import { capitalizeName, returnInitials } from '../../../utils/format';
 import { NavigationButton } from '../../Inputs';
-import { PCLayoutMenuItem } from '../MenuItem';
 
 export function PCLayoutHeaderMenu({
   userName,

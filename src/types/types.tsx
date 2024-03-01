@@ -77,6 +77,9 @@ export type PCLayoutButtonProps = React.ButtonHTMLAttributes<
   HTMLButtonElement
 > & {
   children: React.ReactNode;
+  href?: string;
+  target?: string;
+  download?: string;
 };
 
 export type PCLayoutInputProps = React.InputHTMLAttributes<HTMLInputElement> & {

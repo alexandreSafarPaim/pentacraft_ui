@@ -16,11 +16,13 @@ const logo = () => (
 
 const Template: Story<LayoutProps> = args => (
   <Layout.Root {...args} themeSwitcher  
-    colorSchemeDark={{}}
+    colorSchemeDark={{
+      background: '#a82121',
+    }}
     colorSchemeDefault={{
     }}
   >
-    <Layout.Logo src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/2560px-Coca-Cola_logo.svg.png" />
+    <Layout.Logo src="https://logosmarcas.net/wp-content/uploads/2020/04/Nike-Logo.png" />
     
     <Layout.HeaderActions>
       <button>Botão 1</button>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { defineChildrenElement } from '../../utils/element';
 import { NavigationButton } from '../Inputs/NavigationButton';
-import { PCLayoutFilters } from './Filter';
+import { PCLayoutFilters } from '../Filter';
 import { PCLayoutListContent } from './ListContent';
 
 const PCLayoutList = ({
@@ -12,6 +12,7 @@ const PCLayoutList = ({
   createButtonHref,
   renderPreList,
   renderPosList,
+  actions,
 }: {
   children?: React.ReactNode;
   title?: string;
@@ -20,6 +21,7 @@ const PCLayoutList = ({
   createButtonHref?: string;
   renderPreList?: () => React.ReactNode;
   renderPosList?: () => React.ReactNode;
+  actions?: () => React.ReactNode;
 }) => {
   const filters = useMemo(() => {
     if (!children) {
@@ -47,13 +49,21 @@ const PCLayoutList = ({
     <div className="w-full h-full flex flex-col px-3 pt-2">
       <div className="flex items-center justify-between">
         {title && <h1 className="text-3xl font-bold mb-2">{title}</h1>}
-        {createButtonTitle && (
-          <NewButton
-            createButtonHref={createButtonHref}
-            onCreateClick={onCreateClick}
-            createButtonTitle={createButtonTitle}
-          />
-        )}
+        <div
+          className="flex items-center"
+          style={{
+            gap: '0.5rem',
+          }}
+        >
+          {actions?.()}
+          {createButtonTitle && (
+            <NewButton
+              createButtonHref={createButtonHref}
+              onCreateClick={onCreateClick}
+              createButtonTitle={createButtonTitle}
+            />
+          )}
+        </div>
       </div>
       {filters}
       <div
@@ -61,20 +71,20 @@ const PCLayoutList = ({
         style={{
           height: 'calc(100% - 6rem)',
         }}
-        >
+      >
         {renderPreList?.()}
-        <div
-          className='w-full h-full'
-        >
-        {content}
-        </div>
+        <div className="w-full h-full">{content}</div>
         {renderPosList?.()}
       </div>
     </div>
   );
 };
 
-const List = {
+const List: {
+  Root: typeof PCLayoutList;
+  Content: typeof PCLayoutListContent;
+  Filters: typeof PCLayoutFilters;
+} = {
   Root: PCLayoutList,
   Content: PCLayoutListContent,
   Filters: PCLayoutFilters,

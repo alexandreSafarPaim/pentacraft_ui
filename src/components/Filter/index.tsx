@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useTheme } from '../../../hooks/useTheme';
+import { useTheme } from '../../hooks/useTheme';
 
 export const PCLayoutFilters = ({
   onSubmit,
   onClear,
   children,
+  actions,
 }: {
   onSubmit?: (values: Object) => void;
   onClear?: () => void;
   children?: React.ReactNode;
+  actions?: () => React.ReactNode;
 }) => {
   const scheme = useTheme();
 
@@ -79,6 +81,7 @@ export const PCLayoutFilters = ({
         >
           {children}
           <div className="flex justify-end">
+            {actions && actions()}
             <button
               type="button"
               className="px-3 py-1 bg-slate-700 text-slate-100 rounded-lg mr-2"

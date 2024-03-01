@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { childrenWithout, defineChildrenElement } from '../../utils/element';
-import { PCLayoutPagination } from './Pagination';
+import { PCLayoutPagination } from '../Pagination';
 import { PCLayoutTBody } from './TBody';
 import { PCLayoutTHead } from './THead';
 import { PCLayoutTD } from './TD';
