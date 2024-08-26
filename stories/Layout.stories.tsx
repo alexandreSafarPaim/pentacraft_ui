@@ -10,30 +10,38 @@ const meta: Meta = {
 
 export default meta;
 
-const logo = () => (
-  <div>Loginho</div>
-)
+const logo = () => <div>Loginho</div>;
 
 const Template: Story<LayoutProps> = args => (
-  <Layout.Root {...args} themeSwitcher  
+  <Layout.Root
+    {...args}
+    themeSwitcher
     colorSchemeDark={{
       background: '#a82121',
     }}
-    colorSchemeDefault={{
-    }}
+    colorSchemeDefault={{}}
   >
-    <Layout.Logo src="https://logosmarcas.net/wp-content/uploads/2020/04/Nike-Logo.png" />
-    
+    <Layout.Logo
+      src="https://logosmarcas.net/wp-content/uploads/2020/04/Nike-Logo.png"
+      element={logo}
+    />
+
     <Layout.HeaderActions>
       <button>Botão 1</button>
       <button>Botão 2</button>
     </Layout.HeaderActions>
-    
-    <Layout.HeaderMenu userName="Alexandre safar paim" >
-      <Layout.HeaderMenuItem href="/perfil">Perfil</Layout.HeaderMenuItem>
+
+    <Layout.HeaderMenu
+      userName="Alexandre safar paim"
+      userImage="https://avatars.githubusercontent.com/u/1403943?s=460&u="
+      customAvatar={() => <div>Custom Avatar</div>}
+    >
+      <Layout.HeaderMenuItem href="/perfil" onClick={() => {}}>
+        Perfil
+      </Layout.HeaderMenuItem>
     </Layout.HeaderMenu>
-    
-    <Layout.Menu>
+
+    <Layout.Menu className="" style={{}}>
       <Layout.MenuItem href="/?path=/story/layout--default">
         Layout
       </Layout.MenuItem>
@@ -47,14 +55,20 @@ const Template: Story<LayoutProps> = args => (
       >
         Exemplo Collapse
       </Layout.MenuItem>
-      
-      <Layout.MenuEndItem onClick={()=>{console.log('teste')}}>
+
+      <Layout.MenuEndItem
+        href="/?path=/story/list--default"
+        icon={FiActivity}
+        onClick={() => {
+          console.log('teste');
+        }}
+      >
         List
       </Layout.MenuEndItem>
     </Layout.Menu>
-    
+
     <Layout.Content>
-      
+      children
     </Layout.Content>
   </Layout.Root>
 );

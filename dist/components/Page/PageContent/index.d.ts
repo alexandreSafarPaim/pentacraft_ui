@@ -1,4 +1,4 @@
 import React from 'react';
-export declare const PCLayoutTH: ({ children, }: {
+export declare const PCLayoutPageContent: ({ children, }: {
     children?: React.ReactNode;
 }) => React.JSX.Element;

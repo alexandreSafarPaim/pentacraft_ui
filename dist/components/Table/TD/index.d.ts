@@ -1,5 +1,5 @@
 import React from 'react';
-export declare const PCLayoutTD: ({ children, className, }: {
+export declare const PCLayoutTD: ({ children, className, ...props }: {
     children?: React.ReactNode;
     className?: string | undefined;
-}) => React.JSX.Element;
+} & React.TdHTMLAttributes<HTMLTableCellElement>) => React.JSX.Element;

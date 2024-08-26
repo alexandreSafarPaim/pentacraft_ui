@@ -1,7 +1,15 @@
 import { Meta, Story } from '@storybook/react';
 import React, { useState } from 'react';
 import { FiActivity } from 'react-icons/fi';
-import { CustomSelect, Input, Layout, LayoutProps, Page, Table } from '../src/index';
+import {
+  CustomSelect,
+  Input,
+  Layout,
+  LayoutProps,
+  Page,
+  Table,
+  useTheme,
+} from '../src/index';
 
 const meta: Meta = {
   title: 'Page',
@@ -15,6 +23,8 @@ const Template: Story<LayoutProps> = args => {
   const [totalPages, setTotalPages] = useState(10);
   const [perPage, setPerPage] = useState(10);
 
+  const scheme = useTheme();
+
   const changePage = (page: number) => {
     setCurrentPage(page);
   };
@@ -23,8 +33,123 @@ const Template: Story<LayoutProps> = args => {
     setTotalPages(perPage);
   };
 
+  const data = [
+    {
+      ramal: '1234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '5678',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '91234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '1234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '1234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '1234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '1234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+    {
+      ramal: '1234',
+      empresa: 'Coca-Cola',
+      listagem: [
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+        { nome: 'Alexandre', telefone: '1234-5678' },
+      ],
+    },
+  ];
+
   return (
-    <Layout.Root {...args} colorSchemeDefault={{}}>
+    <Layout.Root {...args}>
       <Layout.Logo src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/2560px-Coca-Cola_logo.svg.png" />
       <Layout.HeaderMenu userName="Alexandre safar paim">
         <Layout.HeaderMenuItem href="/perfil">Perfil</Layout.HeaderMenuItem>
@@ -46,9 +171,7 @@ const Template: Story<LayoutProps> = args => {
       </Layout.Menu>
       <Layout.Content>
 
-        
-        <Page.Root
-          title="Usuários"
+        <Page.Root title="Usuários"
         >
           <Page.Filters
             onSubmit={values => console.log(values)}
@@ -61,26 +184,26 @@ const Template: Story<LayoutProps> = args => {
                 placeholder="Digite o nome do usuário"
               />
               <CustomSelect
-              name="select"
-              options={[
-                { label: 'Opção 1', value: '1' },
-                { label: 'Opção 2', value: '2' },
-                { label: 'Opção 3', value: '3' },
-                { label: 'Opção 4', value: '4' },
-                { label: 'Opção 5', value: '5' },
-              ]}
-              value={['1', '2']}
-              label="Selecione"
-              placeholder='Selecione uma opção'
-              // multiple
-              // error="Selecione uma opção"
-            />
+                name="select"
+                options={[
+                  { label: 'Opção 1', value: '1' },
+                  { label: 'Opção 2', value: '2' },
+                  { label: 'Opção 3', value: '3' },
+                  { label: 'Opção 4', value: '4' },
+                  { label: 'Opção 5', value: '5' },
+                ]}
+                value={['1', '2']}
+                label="Selecione"
+                placeholder="Selecione uma opção"
+              />
             </div>
           </Page.Filters>
 
           <Page.Content>
-          Teste
-          
+            <div>
+              Filtros aplicados
+            </div>
+              <Extrutura item={data[currentPage -1]}/>
           </Page.Content>
           <Page.Pagination
             currentPage={currentPage}
@@ -97,3 +220,30 @@ const Template: Story<LayoutProps> = args => {
 
 export const Default = Template.bind({});
 Default.args = {};
+
+function Extrutura({ item }) {
+  return (
+    <div
+      style={{
+        paddingBlock: '20px',
+      }}
+    >
+        <h2>{item.ramal}</h2>
+        <h3>{item.empresa}</h3>
+      <Table.Root>
+        <Table.THead>
+          <Table.TH>Nome</Table.TH>
+          <Table.TH>Telefone</Table.TH>
+        </Table.THead>
+        <Table.TBody>
+          {item.listagem.map((list, index) => (
+            <Table.TR key={index}>
+              <Table.TD>{list.nome}</Table.TD>
+              <Table.TD>{list.telefone}</Table.TD>
+            </Table.TR>
+          ))}
+        </Table.TBody>
+      </Table.Root>
+    </div>
+  );
+}

@@ -68,6 +68,9 @@ export declare type ColorScheme = {
 };
 export declare type PCLayoutButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     children: React.ReactNode;
+    href?: string;
+    target?: string;
+    download?: string;
 };
 export declare type PCLayoutInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
@@ -82,3 +85,18 @@ export declare type PCLayoutNavigationButtonProps = React.ButtonHTMLAttributes<H
     href?: string;
     fill?: boolean;
 };
+export interface TDProps {
+    children?: React.ReactNode;
+    className?: string;
+    colSpan?: number;
+    rowSpan?: number;
+}
+export interface TBodyProps {
+    children: React.ReactNode;
+}
+export interface THProps {
+    children?: React.ReactNode;
+}
+export interface TRProps {
+    children?: React.ReactNode;
+}

@@ -97,6 +97,8 @@ export const CustomSelect = ({
       } else {
         setSelectedValues(value);
       }
+    } else {
+      setSelectedValues([]);
     }
   }, [value]);
 
@@ -117,7 +119,11 @@ export const CustomSelect = ({
           <input type="hidden" name={name} value={item} key={item} />
         ))
       ) : (
-        <input type="hidden" name={name} value={selectedValues.length > 0 ? selectedValues[0] : ''} />
+        <input
+          type="hidden"
+          name={name}
+          value={selectedValues.length > 0 ? selectedValues[0] : ''}
+        />
       )}
       {label && (
         <label
@@ -213,6 +219,8 @@ export const CustomSelect = ({
                               (item: any) => item !== option.value
                             )
                           );
+
+                        refOptions.current?.classList.toggle('hidden');
                       }
                     } else {
                       if (!multiple) {
@@ -242,8 +250,8 @@ export const CustomSelect = ({
         <button
           type="button"
           onClick={() => {
-            setSelectedValues([])
-            onChange && onChange(undefined)
+            setSelectedValues([]);
+            onChange && onChange(undefined);
           }}
           className="w-full bg-slate-300 font-bold border-t border-slate-400"
         >
