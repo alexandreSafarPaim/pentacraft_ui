@@ -13,6 +13,10 @@ export type LayoutMenuContextType = {
   scheme?: ColorScheme;
 };
 
+export type FormContextType = {
+  formRef: React.RefObject<HTMLFormElement>;
+};
+
 export type PCLayoutMenuCollapseItemProps = {
   label: string;
   href?: string;

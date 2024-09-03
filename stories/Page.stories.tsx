@@ -168,13 +168,24 @@ const Template: Story<LayoutProps> = args => {
         >
           Exemplo Collapse
         </Layout.MenuItem>
+        <Layout.MenuItem
+          icon={FiActivity}
+          collapseItens={[
+            { label: 'Ex 1', href: '#' },
+            { label: 'Ex 2', href: '#' },
+          ]}
+        >
+          Exemplo Collapse 2
+        </Layout.MenuItem>
       </Layout.Menu>
       <Layout.Content>
 
         <Page.Root title="Usuários"
         >
           <Page.Filters
-            onSubmit={values => console.log(values)}
+            onSubmit={values => {
+              throw new Error('Not implemented');
+            }}
             onClear={() => console.log('Limpar')}
           >
             <div className="flex flex-col py-2 gap-3">

@@ -3,6 +3,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { twMerge } from 'tailwind-merge';
 import { useTheme } from '../../../hooks/useTheme';
+import { FormContext } from '../../../contexts/formContext';
 
 interface IMultiselectProps {
   name: string;
@@ -35,6 +36,8 @@ export const CustomSelect = ({
   onChange,
 }: IMultiselectProps) => {
   const scheme = useTheme();
+
+  const { formRef } = React.useContext(FormContext);
 
   const [selectedValues, setSelectedValues] = useState<any>([]);
   const [search, setSearch] = useState('');
@@ -81,6 +84,22 @@ export const CustomSelect = ({
       refOptions.current.classList.add('hidden');
     }
   };
+
+  const resetForm = () => {
+    console.log('reset');
+    setSelectedValues([]);
+    onChange && onChange(undefined);
+  };
+
+  useEffect(() => {
+    if (formRef) {
+      formRef.current?.addEventListener('reset', resetForm);
+    }
+
+    return () => {
+      formRef.current?.removeEventListener('reset', resetForm);
+    };
+  }, [formRef]);
 
   useEffect(() => {
     window.addEventListener('click', handleClickOutside);
@@ -207,6 +226,7 @@ export const CustomSelect = ({
                       if (!multiple) {
                         setSelectedValues([]);
                         onChange && onChange([]);
+                        refOptions.current?.classList.toggle('hidden');
                       } else {
                         setSelectedValues(
                           selectedValues.filter(
@@ -219,13 +239,12 @@ export const CustomSelect = ({
                               (item: any) => item !== option.value
                             )
                           );
-
-                        refOptions.current?.classList.toggle('hidden');
                       }
                     } else {
                       if (!multiple) {
                         setSelectedValues([option.value]);
                         onChange && onChange([option.value]);
+                        refOptions.current?.classList.toggle('hidden');
                       } else {
                         setSelectedValues([...selectedValues, option.value]);
                         onChange && onChange([...selectedValues, option.value]);

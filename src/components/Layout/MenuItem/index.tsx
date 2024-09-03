@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { BiChevronDown, BiChevronUp, BiSolidTagAlt } from 'react-icons/bi';
 import { NavigationButton } from '../../Inputs/NavigationButton';
 import { LayoutMenuContext } from '../../../contexts/context';
@@ -14,6 +14,11 @@ export const PCLayoutMenuItem = ({
   const { showMenu, scheme } = React.useContext(LayoutMenuContext);
 
   const [active, setActive] = useState(false);
+  
+  const [showSubMenu, setShowSubMenu] = useState(false);
+
+  const ref = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     if (window && typeof window !== 'undefined') {
@@ -30,13 +35,39 @@ export const PCLayoutMenuItem = ({
     }
   }, []);
 
+  const handleClickOutside = (e: any) => {
+    if (
+      ref.current &&
+      !ref.current.contains(e.target as Node)
+      && !showMenu
+    ) {
+      console.log('click',showMenu);
+      setShowSubMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('click', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [showMenu]);
+
+
+  useEffect(() => {
+    if(!showMenu){
+      setShowSubMenu(false);
+    }
+  }, [showMenu])
+
   const Icon = useMemo(() => {
     return icon ?? BiSolidTagAlt;
   }, [icon]);
 
-  const [showSubMenu, setShowSubMenu] = useState(false);
   return (
     <div
+    ref={ref}
       className={`flex flex-col relative z-30`}
       style={{
         color: active
@@ -76,7 +107,7 @@ export const PCLayoutMenuItem = ({
       <div
         className={`mx-4 rounded-md overflow-hidden z-30`}
         style={{
-          transition: 'all 0.3s ease-in-out',
+          transition: showMenu ? 'all 0.3s ease-in-out' : 'all 0s ease-in-out',
           marginBlock: showSubMenu ? '0.2rem' : '0',
           maxHeight: showSubMenu ? `calc(2rem * ${collapseItens?.length} + 1rem)` : '0',
           position: !showMenu ? 'fixed' : 'relative',

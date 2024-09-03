@@ -11,6 +11,9 @@ export declare type LayoutMenuContextType = {
     setShowMenu?: (value: boolean) => void;
     scheme?: ColorScheme;
 };
+export declare type FormContextType = {
+    formRef: React.RefObject<HTMLFormElement>;
+};
 export declare type PCLayoutMenuCollapseItemProps = {
     label: string;
     href?: string;

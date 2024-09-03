@@ -65,6 +65,7 @@ const Template: Story<LayoutProps> = args => {
                 placeholder="Digite o nome do usuário"
               />
               <CustomSelect
+              multiple
               name="select"
               options={[
                 { label: 'Opção 1', value: '1' },

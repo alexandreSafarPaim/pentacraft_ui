@@ -397,6 +397,12 @@ var Input = function Input(_ref) {
   }, error)));
 };
 
+var FormContext = /*#__PURE__*/React.createContext({
+  formRef: {
+    current: null
+  }
+});
+
 var CustomSelect = function CustomSelect(_ref) {
   var _refSelect$current7;
   var name = _ref.name,
@@ -410,6 +416,8 @@ var CustomSelect = function CustomSelect(_ref) {
     error = _ref.error,
     onChange = _ref.onChange;
   var scheme = useTheme();
+  var _React$useContext = React.useContext(FormContext),
+    formRef = _React$useContext.formRef;
   var _useState = useState([]),
     selectedValues = _useState[0],
     setSelectedValues = _useState[1];
@@ -439,6 +447,21 @@ var CustomSelect = function CustomSelect(_ref) {
       refOptions.current.classList.add('hidden');
     }
   };
+  var resetForm = function resetForm() {
+    console.log('reset');
+    setSelectedValues([]);
+    onChange && onChange(undefined);
+  };
+  useEffect(function () {
+    if (formRef) {
+      var _formRef$current;
+      (_formRef$current = formRef.current) == null ? void 0 : _formRef$current.addEventListener('reset', resetForm);
+    }
+    return function () {
+      var _formRef$current2;
+      (_formRef$current2 = formRef.current) == null ? void 0 : _formRef$current2.removeEventListener('reset', resetForm);
+    };
+  }, [formRef]);
   useEffect(function () {
     window.addEventListener('click', handleClickOutside);
     return function () {
@@ -542,8 +565,10 @@ var CustomSelect = function CustomSelect(_ref) {
       onClick: function onClick() {
         if (selectedValues.includes(option.value)) {
           if (!multiple) {
+            var _refOptions$current;
             setSelectedValues([]);
             onChange && onChange([]);
+            (_refOptions$current = refOptions.current) == null ? void 0 : _refOptions$current.classList.toggle('hidden');
           } else {
             setSelectedValues(selectedValues.filter(function (item) {
               return item !== option.value;
@@ -554,8 +579,10 @@ var CustomSelect = function CustomSelect(_ref) {
           }
         } else {
           if (!multiple) {
+            var _refOptions$current2;
             setSelectedValues([option.value]);
             onChange && onChange([option.value]);
+            (_refOptions$current2 = refOptions.current) == null ? void 0 : _refOptions$current2.classList.toggle('hidden');
           } else {
             setSelectedValues([].concat(selectedValues, [option.value]));
             onChange && onChange([].concat(selectedValues, [option.value]));
@@ -729,6 +756,10 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
   var _useState = useState(false),
     active = _useState[0],
     setActive = _useState[1];
+  var _useState2 = useState(false),
+    showSubMenu = _useState2[0],
+    setShowSubMenu = _useState2[1];
+  var ref = useRef(null);
   useEffect(function () {
     if (window && typeof window !== 'undefined') {
       var path = window.location.pathname;
@@ -743,13 +774,28 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
       }
     }
   }, []);
+  var handleClickOutside = function handleClickOutside(e) {
+    if (ref.current && !ref.current.contains(e.target) && !showMenu) {
+      console.log('click', showMenu);
+      setShowSubMenu(false);
+    }
+  };
+  useEffect(function () {
+    window.addEventListener('click', handleClickOutside);
+    return function () {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, [showMenu]);
+  useEffect(function () {
+    if (!showMenu) {
+      setShowSubMenu(false);
+    }
+  }, [showMenu]);
   var Icon = useMemo(function () {
     return icon != null ? icon : BiSolidTagAlt;
   }, [icon]);
-  var _useState2 = useState(false),
-    showSubMenu = _useState2[0],
-    setShowSubMenu = _useState2[1];
   return React.createElement("div", {
+    ref: ref,
     className: "flex flex-col relative z-30",
     style: {
       color: active ? scheme == null ? void 0 : scheme.buttonSecondaryTextHover : scheme == null ? void 0 : scheme.buttonSecondaryText,
@@ -779,7 +825,7 @@ var PCLayoutMenuItem = function PCLayoutMenuItem(_ref) {
   }))), React.createElement("div", {
     className: "mx-4 rounded-md overflow-hidden z-30",
     style: {
-      transition: 'all 0.3s ease-in-out',
+      transition: showMenu ? 'all 0.3s ease-in-out' : 'all 0s ease-in-out',
       marginBlock: showSubMenu ? '0.2rem' : '0',
       maxHeight: showSubMenu ? "calc(2rem * " + (collapseItens == null ? void 0 : collapseItens.length) + " + 1rem)" : '0',
       position: !showMenu ? 'fixed' : 'relative',
@@ -1070,7 +1116,11 @@ var PCLayoutFilters = function PCLayoutFilters(_ref) {
       }
     };
   }, []);
-  return React.createElement("div", {
+  return React.createElement(FormContext.Provider, {
+    value: {
+      formRef: form
+    }
+  }, React.createElement("div", {
     className: "h-12 w-full flex items-center relative z-20"
   }, React.createElement("button", {
     type: "button",
@@ -1098,7 +1148,7 @@ var PCLayoutFilters = function PCLayoutFilters(_ref) {
   }, children, React.createElement("div", {
     className: "flex justify-end"
   }, actions && actions(), React.createElement("button", {
-    type: "button",
+    type: "reset",
     className: "px-3 py-1 bg-slate-700 text-slate-100 rounded-lg mr-2",
     onClick: function onClick() {
       var _form$current;
@@ -1108,7 +1158,7 @@ var PCLayoutFilters = function PCLayoutFilters(_ref) {
   }, "Limpar filtros"), React.createElement("button", {
     type: "submit",
     className: "px-3 py-1 bg-slate-700 text-slate-100 rounded-lg"
-  }, "Filtrar")))));
+  }, "Filtrar"))))));
 };
 
 var PCLayoutPagination = function PCLayoutPagination(_ref) {
