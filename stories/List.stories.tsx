@@ -57,6 +57,8 @@ const Template: Story<LayoutProps> = args => {
           <List.Filters
             onSubmit={values => console.log(values)}
             onClear={() => console.log('Limpar')}
+            closeOnSubmit={true}
+            closeOnClear={true}
           >
             <div className="flex flex-col py-2 gap-3">
               <Input

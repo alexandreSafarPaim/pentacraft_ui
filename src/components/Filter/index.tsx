@@ -7,11 +7,15 @@ export const PCLayoutFilters = ({
   onClear,
   children,
   actions,
+  closeOnSubmit,
+  closeOnClear,
 }: {
   onSubmit?: (values: Object) => void;
   onClear?: () => void;
   children?: React.ReactNode;
   actions?: () => React.ReactNode;
+  closeOnSubmit?: boolean;
+  closeOnClear?: boolean;
 }) => {
   const scheme = useTheme();
 
@@ -94,11 +98,19 @@ export const PCLayoutFilters = ({
                 onClick={() => {
                   form.current?.reset();
                   onClear?.();
+                  if (closeOnClear) {
+                    setOpenFilter(false);
+                  }
                 }}
               >
                 Limpar filtros
               </button>
               <button
+                onClick={() => {
+                  if (closeOnSubmit) {
+                    setOpenFilter(false);
+                  }
+                }}
                 type="submit"
                 className="px-3 py-1 bg-slate-700 text-slate-100 rounded-lg"
               >
