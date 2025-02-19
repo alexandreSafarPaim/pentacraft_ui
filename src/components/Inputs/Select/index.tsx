@@ -16,6 +16,7 @@ interface IMultiselectProps {
   label?: string;
   error?: string;
   onChange?: (value: string | string[] | undefined) => void;
+  defaultValue?: string | string[];
 }
 
 interface ISelectOption {
@@ -34,8 +35,11 @@ export const CustomSelect = ({
   label,
   error,
   onChange,
+  defaultValue,
 }: IMultiselectProps) => {
   const scheme = useTheme();
+
+  const [hasChangedByDefault, setHasChangedByDefault] = useState(false);
 
   const { formRef } = React.useContext(FormContext);
 
@@ -86,7 +90,7 @@ export const CustomSelect = ({
   };
 
   const resetForm = () => {
-    console.log('reset');
+    // console.log('reset');
     setSelectedValues([]);
     onChange && onChange(undefined);
   };
@@ -112,6 +116,7 @@ export const CustomSelect = ({
   useEffect(() => {
     if (value) {
       if (typeof value === 'string') {
+        // console.log(value.split(','));
         setSelectedValues([value.split(',')]);
       } else {
         setSelectedValues(value);
@@ -121,15 +126,52 @@ export const CustomSelect = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    console.log(hasChangedByDefault);
+    if (hasChangedByDefault) return;
+    if (defaultValue) {
+      console.log(defaultValue);
+      if (typeof defaultValue === 'string') {
+        setSelectedValues([defaultValue.split(',')]);
+      } else {
+        setSelectedValues(defaultValue);
+      }
+      setHasChangedByDefault(true);
+    }
+  }, [defaultValue]);
+
   const valueText = useMemo(() => {
     if (selectedValues.length > 0 && selectedValues.length < 2) {
-      return options.find(option => option.value === selectedValues[0])?.label;
+      return options.find(option => option.value == selectedValues[0])?.label;
     } else if (selectedValues.length > 1) {
       return `${selectedValues.length} selecionados`;
     } else {
       return placeholder || 'Selecione';
     }
   }, [selectedValues]);
+
+  const handleSelect = (value: string) => {
+    if (selectedValues.includes(value)) {
+      if (!multiple) {
+        setSelectedValues([]);
+        onChange && onChange([]);
+        refOptions.current?.classList.toggle('hidden');
+      } else {
+        setSelectedValues(selectedValues.filter((item: any) => item !== value));
+        onChange &&
+          onChange(selectedValues.filter((item: any) => item !== value));
+      }
+    } else {
+      if (!multiple) {
+        setSelectedValues([value]);
+        onChange && onChange([value]);
+        refOptions.current?.classList.toggle('hidden');
+      } else {
+        setSelectedValues([...selectedValues, value]);
+        onChange && onChange([...selectedValues, value]);
+      }
+    }
+  };
 
   return (
     <div className="w-full">
@@ -222,35 +264,38 @@ export const CustomSelect = ({
                     selectedValues.includes(option.value) &&
                     'bg-slate-500 text-white'}`}
                   onClick={() => {
-                    if (selectedValues.includes(option.value)) {
-                      if (!multiple) {
-                        setSelectedValues([]);
-                        onChange && onChange([]);
-                        refOptions.current?.classList.toggle('hidden');
-                      } else {
-                        setSelectedValues(
-                          selectedValues.filter(
-                            (item: any) => item !== option.value
-                          )
-                        );
-                        onChange &&
-                          onChange(
-                            selectedValues.filter(
-                              (item: any) => item !== option.value
-                            )
-                          );
-                      }
-                    } else {
-                      if (!multiple) {
-                        setSelectedValues([option.value]);
-                        onChange && onChange([option.value]);
-                        refOptions.current?.classList.toggle('hidden');
-                      } else {
-                        setSelectedValues([...selectedValues, option.value]);
-                        onChange && onChange([...selectedValues, option.value]);
-                      }
-                    }
+                    handleSelect(option.value);
                   }}
+
+                  //   if (selectedValues.includes(option.value)) {
+                  //     if (!multiple) {
+                  //       setSelectedValues([]);
+                  //       onChange && onChange([]);
+                  //       refOptions.current?.classList.toggle('hidden');
+                  //     } else {
+                  //       setSelectedValues(
+                  //         selectedValues.filter(
+                  //           (item: any) => item !== option.value
+                  //         )
+                  //       );
+                  //       onChange &&
+                  //         onChange(
+                  //           selectedValues.filter(
+                  //             (item: any) => item !== option.value
+                  //           )
+                  //         );
+                  //     }
+                  //   } else {
+                  //     if (!multiple) {
+                  //       setSelectedValues([option.value]);
+                  //       onChange && onChange([option.value]);
+                  //       refOptions.current?.classList.toggle('hidden');
+                  //     } else {
+                  //       setSelectedValues([...selectedValues, option.value]);
+                  //       onChange && onChange([...selectedValues, option.value]);
+                  //     }
+                  //   }
+                  // }}
                 >
                   {multiple && (
                     <input
