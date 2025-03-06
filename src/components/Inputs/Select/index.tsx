@@ -177,7 +177,7 @@ export const CustomSelect = ({
     <div className="w-full">
       {multiple ? (
         selectedValues.map((item: any) => (
-          <input type="hidden" name={name} value={item} key={item} />
+          <input type="hidden" name={name.replace('[]', '') + "[]"} value={item} key={item} />
         ))
       ) : (
         <input

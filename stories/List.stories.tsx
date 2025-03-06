@@ -55,7 +55,17 @@ const Template: Story<LayoutProps> = args => {
           renderPosList={() => <div>Pós lista</div>}
         >
           <List.Filters
-            onSubmit={values => console.log(values)}
+            onSubmit={(values, fd) =>{ 
+
+              console.log('object',values)
+
+              console.log('formData')
+              fd.forEach((value, key) => {
+                console.log('key',key)
+                console.log('value',value)
+              });
+            
+            }}
             onClear={() => console.log('Limpar')}
             closeOnSubmit={true}
             closeOnClear={true}
@@ -79,6 +89,7 @@ const Template: Story<LayoutProps> = args => {
               value={['1', '2']}
               label="Selecione"
               placeholder='Selecione uma opção'
+              onChange={value => console.log(value)}
               // multiple
               // error="Selecione uma opção"
             />

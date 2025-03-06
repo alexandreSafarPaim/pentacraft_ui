@@ -10,7 +10,7 @@ export const PCLayoutFilters = ({
   closeOnSubmit,
   closeOnClear,
 }: {
-  onSubmit?: (values: Object) => void;
+  onSubmit?: (values: Object, formData: FormData) => void;
   onClear?: () => void;
   children?: React.ReactNode;
   actions?: () => React.ReactNode;
@@ -27,9 +27,28 @@ export const PCLayoutFilters = ({
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
-    const entries = data.entries();
-    const values = Object.fromEntries(entries);
-    onSubmit?.(values);
+
+    const values: any = {};
+
+    data.forEach((value, key) => {
+      if (values[key]) {
+        if (!Array.isArray(values[key])) {
+          values[key] = [values[key]];
+        }
+        values[key].push(value);
+      } else {
+        values[key] = value;
+      }
+    });
+
+    const finalValues: any = {};
+
+    Object.keys(values).forEach((key) => {
+      const newKey = key.replace('[]', '');
+      finalValues[newKey] = values[key];
+    });
+
+    onSubmit?.(finalValues,  data);
   };
 
   const clickOut = (event: MouseEvent) => {

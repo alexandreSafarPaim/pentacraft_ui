@@ -136,7 +136,8 @@ const Template: Story<LayoutProps> = args => {
                 { label: 'Opção 4', value: '4' },
                 { label: 'Opção 5', value: '5' },
               ]}
-              value={select}
+              // value={"3"}
+              defaultValue={select}
               label="Selecione2"
               placeholder='Selecione uma opção2'
               // multiple
