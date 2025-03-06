@@ -370,10 +370,10 @@ export default ExemploAuxiliares;
 ```
 
 ## Desenvolvido por:
-<center>
+<div align="center">
 
 ||
 |---
 |[<img src="https://avatars.githubusercontent.com/u/76395975?v=4" width=115 style="border-radius: 50%;"> <br> <sub> Alexandre Safar Paim </sub>](https://github.com/alexandreSafarPaim)
 
-</center>
+</div>
