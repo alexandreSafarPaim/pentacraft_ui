@@ -20,6 +20,7 @@ export const PCLayoutFilters = ({
   const scheme = useTheme();
 
   const [openFilter, setOpenFilter] = useState(false);
+  const [clickFirstTime, setClickFirstTime] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const button = useRef<HTMLButtonElement>(null);
 
@@ -43,12 +44,12 @@ export const PCLayoutFilters = ({
 
     const finalValues: any = {};
 
-    Object.keys(values).forEach((key) => {
+    Object.keys(values).forEach(key => {
       const newKey = key.replace('[]', '');
       finalValues[newKey] = values[key];
     });
 
-    onSubmit?.(finalValues,  data);
+    onSubmit?.(finalValues, data);
   };
 
   const clickOut = (event: MouseEvent) => {
@@ -87,57 +88,64 @@ export const PCLayoutFilters = ({
             transition:
               'background-color 0.3s ease-in-out, color 0.3s ease-in-out',
           }}
-          onClick={() => setOpenFilter(!openFilter)}
+          onClick={() => {
+            if (!clickFirstTime) {
+              setClickFirstTime(true);
+            }
+            setOpenFilter(!openFilter);
+          }}
           ref={button}
         >
           Filtros
         </button>
-        <div
-          className={`absolute top-12 max-w-full rounded-b-lg rounded-se-lg  ${
-            openFilter ? 'max-h-screen' : 'max-h-0 overflow-auto'
-          }`}
-          style={{
-            minWidth: '60%',
-            transition:
-              'max-height 0.1s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out, overflow 0.3s ease-in-out',
-            backgroundColor: scheme?.backgroundSecondary,
-          }}
-        >
-          <form
-            className="flex flex-col p-3 border border-slate-700 rounded-lg"
-            onSubmit={handleFormSubmit}
-            ref={form}
+        {clickFirstTime && (
+          <div
+            className={`absolute top-12 max-w-full rounded-b-lg rounded-se-lg  ${
+              openFilter ? 'max-h-screen' : 'max-h-0 overflow-auto'
+            }`}
+            style={{
+              minWidth: '60%',
+              transition:
+                'max-height 0.1s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out, overflow 0.3s ease-in-out',
+              backgroundColor: scheme?.backgroundSecondary,
+            }}
           >
-            {children}
-            <div className="flex justify-end">
-              {actions && actions()}
-              <button
-                type="reset"
-                className="px-3 py-1 bg-slate-700 text-slate-100 rounded-lg mr-2"
-                onClick={() => {
-                  form.current?.reset();
-                  onClear?.();
-                  if (closeOnClear) {
-                    setOpenFilter(false);
-                  }
-                }}
-              >
-                Limpar filtros
-              </button>
-              <button
-                onClick={() => {
-                  if (closeOnSubmit) {
-                    setOpenFilter(false);
-                  }
-                }}
-                type="submit"
-                className="px-3 py-1 bg-slate-700 text-slate-100 rounded-lg"
-              >
-                Filtrar
-              </button>
-            </div>
-          </form>
-        </div>
+            <form
+              className="flex flex-col p-3 border border-slate-700 rounded-lg"
+              onSubmit={handleFormSubmit}
+              ref={form}
+            >
+              {children}
+              <div className="flex justify-end">
+                {actions && actions()}
+                <button
+                  type="reset"
+                  className="px-3 py-1 bg-slate-700 text-slate-100 rounded-lg mr-2"
+                  onClick={() => {
+                    form.current?.reset();
+                    onClear?.();
+                    if (closeOnClear) {
+                      setOpenFilter(false);
+                    }
+                  }}
+                >
+                  Limpar filtros
+                </button>
+                <button
+                  onClick={() => {
+                    if (closeOnSubmit) {
+                      setOpenFilter(false);
+                    }
+                  }}
+                  type="submit"
+                  className="px-3 py-1 bg-slate-700 text-slate-100 rounded-lg"
+                >
+                  Filtrar
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </FormContext.Provider>
   );

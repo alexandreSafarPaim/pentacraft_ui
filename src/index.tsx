@@ -1,7 +1,7 @@
-export * from './components';
 import './tailwind.css';
-import './index.css';
+import './pentacraft.css';
 
+export * from './components';
 export * from './types/types';
 export * from './utils/color';
 export * from './utils/element';

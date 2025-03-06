@@ -4,6 +4,7 @@ module.exports = {
   rollup(config, options) {
     config.plugins.push(
       postcss({
+        extract: 'pentacraft.css',
         config: {
           path: './postcss.config.js',
         },
