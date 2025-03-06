@@ -1,12 +1,17 @@
-# Pentacraft UI
+<div align="center">
 
 [![Latest Version on npm](https://img.shields.io/npm/v/@alexandrepaim/pentacraft_ui)](https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui)
 [![npm](https://img.shields.io/npm/dt/@alexandrepaim/pentacraft_ui)](https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui)
+[![Next][Next.js]][Next-url]
 
+
+# Pentacraft UI
+</div>
 
 **Pentacraft UI** é uma biblioteca de componentes para Next.js desenvolvida pela equipe da **Pentagrama**. Ela oferece uma estrutura completa para criar interfaces consistentes e responsivas, com suporte a temas (claro/escuro), páginas de listagem, formulários, layouts padrão e componentes auxiliares para inputs, botões e paginação.
 
 ---
+
 
 ## Sumário
 
