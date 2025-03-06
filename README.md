@@ -1,11 +1,12 @@
 <div align="center">
 
-[![Latest Version on npm](https://img.shields.io/npm/v/@alexandrepaim/pentacraft_ui)](https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui)
-[![npm](https://img.shields.io/npm/dt/@alexandrepaim/pentacraft_ui)](https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui)
+[![Latest Version on npm][version]][version-url]
+[![Downloads on npm][downloads]][downloads-url]
+
 [![Next][Next.js]][Next-url]
 
-
 # Pentacraft UI
+
 </div>
 
 **Pentacraft UI** é uma biblioteca de componentes para Next.js desenvolvida pela equipe da **Pentagrama**. Ela oferece uma estrutura completa para criar interfaces consistentes e responsivas, com suporte a temas (claro/escuro), páginas de listagem, formulários, layouts padrão e componentes auxiliares para inputs, botões e paginação.
@@ -382,3 +383,14 @@ export default ExemploAuxiliares;
 |[<img src="https://avatars.githubusercontent.com/u/76395975?v=4" width=115 style="border-radius: 50%;"> <br> <sub> Alexandre Safar Paim </sub>](https://github.com/alexandreSafarPaim)
 
 </div>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- https://img.shields.io/npm/v/@alexandrepaim/pentacraft_ui -->
+[version]: https://img.shields.io/npm/v/@alexandrepaim/pentacraft_ui
+[version-url]: https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui
+[downloads]: https://img.shields.io/npm/dt/@alexandrepaim/pentacraft_ui
+[downloads-url]: https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
