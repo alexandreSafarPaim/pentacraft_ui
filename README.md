@@ -1,8 +1,8 @@
-Segue o README atualizado com a inclusão do componente de paginação:
-
----
-
 # Pentacraft UI
+
+[![Latest Version on npm](https://img.shields.io/npm/v/@alexandrepaim/pentacraft_ui)](https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui)
+[![npm](https://img.shields.io/npm/dt/@alexandrepaim/pentacraft_ui)](https://www.npmjs.com/package/@alexandrepaim/pentacraft_ui)
+
 
 **Pentacraft UI** é uma biblioteca de componentes para Next.js desenvolvida pela equipe da **Pentagrama**. Ela oferece uma estrutura completa para criar interfaces consistentes e responsivas, com suporte a temas (claro/escuro), páginas de listagem, formulários, layouts padrão e componentes auxiliares para inputs, botões e paginação.
 
@@ -368,3 +368,12 @@ function ExemploAuxiliares() {
 
 export default ExemploAuxiliares;
 ```
+
+## Desenvolvido por:
+<center>
+
+||
+|---
+|[<img src="https://avatars.githubusercontent.com/u/76395975?v=4" width=115 style="border-radius: 50%;"> <br> <sub> Alexandre Safar Paim </sub>](https://github.com/alexandreSafarPaim)
+
+</center>
